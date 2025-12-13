@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useReducer, useEffect, useCallback } from 'react';
 import type { CVData, SavedCV } from '../types';
 
 const STORAGE_KEY = 'cv-data';
@@ -24,117 +24,142 @@ const generateNewCV = (index: number = 0): SavedCV => {
   };
 };
 
-export function useCVStorage() {
-  // Lazy initialization to avoid effect cascading
-  const [cvs, setCvs] = useState<SavedCV[]>(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          return parsed;
-        }
-      }
-    } catch (e) {
-      console.error('Failed to parse CV data', e);
+// Reducer State & Actions
+type State = {
+  cvs: SavedCV[];
+  activeId: string | null;
+  initialized: boolean;
+};
+
+type Action =
+  | { type: 'INIT_FROM_STORAGE' }
+  | { type: 'CREATE'; payload: SavedCV }
+  | { type: 'DELETE'; payload: { idToDelete: string; newCVIfEmpty: SavedCV } }
+  | {
+      type: 'UPDATE';
+      payload: { id: string; data: Partial<SavedCV>; updatedAt: number };
     }
-    // Default to one CV if storage is empty
-    return [generateNewCV()];
-  });
+  | { type: 'SELECT'; payload: string };
 
-  const [activeId, setActiveId] = useState<string | null>(() => {
-    // Always select the first one on init if available
-    return cvs.length > 0 ? cvs[0].id : null;
-  });
-
-  const initialized = useRef(false);
-
-  // Mark initialized after mount (though we handled init in useState)
-  useEffect(() => {
-    initialized.current = true;
-  }, []);
-
-  const createCV = useCallback(() => {
-    const newId = crypto.randomUUID();
-
-    // We update state functionally
-    setCvs((prev) => {
-      const title = `Novo Currículo ${prev.length + 1}`;
-      const newCV: SavedCV = {
-        ...defaultCV,
-        id: newId,
-        title,
-        updatedAt: Date.now(),
+function reducer(state: State, action: Action): State {
+  switch (action.type) {
+    case 'CREATE': {
+      return {
+        ...state,
+        cvs: [...state.cvs, action.payload],
+        activeId: action.payload.id,
       };
-      return [...prev, newCV];
-    });
-
-    // We set activeId
-    setActiveId(newId);
-
-    // Return a temporary object for immediate use if needed by caller
-    // Note: The title mimics the logic inside the setter
-    return {
-      ...defaultCV,
-      id: newId,
-      title: 'Novo Currículo',
-      updatedAt: Date.now(),
-    };
-  }, []);
-
-  // Save to storage whenever cvs change
-  useEffect(() => {
-    // We only want to save if we are initialized or if we want to sync the initial state immediately?
-    // Actually, usually we only save if changes happen.
-    // But since we initialized from storage (or default), the state matches storage (or is a valid new default).
-    // If we created a default, we might want to save it immediately?
-    // The previous code only saved if `cvs.length > 0`.
-
-    if (cvs.length > 0) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(cvs));
-    } else if (initialized.current) {
-      // Only remove if we've initialized and cvs becomes empty
-      localStorage.removeItem(STORAGE_KEY);
     }
-  }, [cvs]);
-
-  const updateCV = useCallback((id: string, data: Partial<SavedCV>) => {
-    setCvs((prev) =>
-      prev.map((cv) =>
-        cv.id === id
-          ? {
-              ...cv,
-              ...data,
-              updatedAt: Date.now(),
-            }
-          : cv
-      )
-    );
-  }, []);
-
-  const deleteCV = useCallback(
-    (id: string) => {
-      const remaining = cvs.filter((cv) => cv.id !== id);
+    case 'DELETE': {
+      const { idToDelete, newCVIfEmpty } = action.payload;
+      const remaining = state.cvs.filter((cv) => cv.id !== idToDelete);
 
       if (remaining.length === 0) {
-        const newCV = generateNewCV();
-        setCvs([newCV]);
-        setActiveId(newCV.id);
-      } else {
-        setCvs(remaining);
-        if (activeId === id) {
-          setActiveId(remaining[0].id);
-        }
+        return {
+          ...state,
+          cvs: [newCVIfEmpty],
+          activeId: newCVIfEmpty.id,
+        };
       }
-    },
-    [cvs, activeId]
-  );
 
-  const activeCV = cvs.find((cv) => cv.id === activeId) || null;
+      let newActiveId = state.activeId;
+      if (state.activeId === idToDelete) {
+        newActiveId = remaining[0].id;
+      }
+
+      return {
+        ...state,
+        cvs: remaining,
+        activeId: newActiveId,
+      };
+    }
+    case 'UPDATE': {
+      const { id, data, updatedAt } = action.payload;
+      const newCvs = state.cvs.map((cv) =>
+        cv.id === id ? { ...cv, ...data, updatedAt } : cv
+      );
+      return {
+        ...state,
+        cvs: newCvs,
+      };
+    }
+    case 'SELECT': {
+      return {
+        ...state,
+        activeId: action.payload,
+      };
+    }
+    default:
+      return state;
+  }
+}
+
+// Initializer function to read from localStorage synchronously
+function initCVState(): State {
+  let initialCvs: SavedCV[] = [];
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        initialCvs = parsed;
+      }
+    }
+  } catch (e) {
+    console.error('Failed to parse CV data', e);
+  }
+
+  if (initialCvs.length === 0) {
+    initialCvs = [generateNewCV()];
+  }
 
   return {
-    cvs,
-    activeId,
+    cvs: initialCvs,
+    activeId: initialCvs[0].id,
+    initialized: true,
+  };
+}
+
+export function useCVStorage() {
+  const [state, dispatch] = useReducer(reducer, null, initCVState);
+
+  // Persist to storage whenever cvs change
+  useEffect(() => {
+    if (state.initialized && state.cvs.length > 0) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state.cvs));
+    }
+  }, [state.cvs, state.initialized]);
+
+  const createCV = useCallback(() => {
+    const newCV = generateNewCV(state.cvs.length);
+    dispatch({ type: 'CREATE', payload: newCV });
+  }, [state.cvs.length]);
+
+  const deleteCV = useCallback((id: string) => {
+    // Pre-generate a new CV in case deletions make the list empty
+    const newCVIfEmpty = generateNewCV();
+    dispatch({
+      type: 'DELETE',
+      payload: { idToDelete: id, newCVIfEmpty },
+    });
+  }, []);
+
+  const updateCV = useCallback((id: string, data: Partial<SavedCV>) => {
+    dispatch({
+      type: 'UPDATE',
+      payload: { id, data, updatedAt: Date.now() },
+    });
+  }, []);
+
+  const setActiveId = useCallback((id: string) => {
+    dispatch({ type: 'SELECT', payload: id });
+  }, []);
+
+  const activeCV = state.cvs.find((cv) => cv.id === state.activeId) || null;
+
+  return {
+    cvs: state.cvs,
+    activeId: state.activeId,
     activeCV,
     setActiveId,
     createCV,
