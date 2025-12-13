@@ -140,7 +140,7 @@ function App() {
               </div>
 
               {/* The wrapper handles the scaling and overflow for the preview on screen */}
-              <div className="overflow-auto border rounded bg-gray-300 p-4 flex justify-center shadow-inner max-h-[calc(100vh-200px)]">
+              <div className="overflow-auto border rounded bg-gray-300 flex justify-center shadow-inner max-h-[calc(100vh-200px)]">
                 <CVPreview ref={contentRef} data={data} />
               </div>
             </div>

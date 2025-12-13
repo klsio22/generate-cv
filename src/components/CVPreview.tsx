@@ -15,7 +15,7 @@ export const CVPreview = React.forwardRef<HTMLDivElement, CVPreviewProps>(
     return (
       <div
         ref={ref}
-        className="bg-white text-black p-8 w-[210mm] min-h-[297mm] shadow-lg mx-auto print:shadow-none print:w-full print:mx-0"
+        className="bg-white text-black p-14 w-[210mm] min-h-[297mm] shadow-lg mx-auto print:shadow-none print:w-full print:mx-0"
         style={{ fontFamily: 'Arial, sans-serif' }}
       >
         {/* Header - Nome e Cargo */}
