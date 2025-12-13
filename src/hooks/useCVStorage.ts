@@ -1,20 +1,10 @@
 import { useReducer, useEffect, useCallback } from 'react';
-import type { CVData, SavedCV } from '../types';
+import type { SavedCV } from '../types';
+import { defaultCV } from '../data/defaultCV';
 
 const STORAGE_KEY = 'cv-data';
 
-const defaultCV: CVData = {
-  fullName: 'Seu Nome',
-  jobTitle: 'Seu Cargo',
-  address: 'Seu Endereço',
-  phone: '(00) 00000-0000',
-  email: 'seu.email@exemplo.com',
-  linkedin: 'linkedin.com/in/seu-perfil',
-  objective: 'Seu objetivo profissional aqui...',
-  education: [],
-  experience: [],
-  skills: 'Suas habilidades...',
-};
+
 
 const generateNewCV = (index: number = 0): SavedCV => {
   return {

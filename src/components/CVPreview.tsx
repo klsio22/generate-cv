@@ -21,7 +21,7 @@ export const CVPreview = React.forwardRef<HTMLDivElement, CVPreviewProps>(
         {/* Header - Nome e Cargo */}
         <div className="mb-6">
           <div className="flex justify-between w-full">
-            <div className='flex flex-col w-full'>
+            <div className="flex flex-col w-full">
               <h1
                 className="font-bold text-4xl mb-2"
                 style={{ color: primaryColor }}
@@ -131,69 +131,73 @@ export const CVPreview = React.forwardRef<HTMLDivElement, CVPreviewProps>(
               )}
             </div>
 
-            {/* FORMAÇÃO ACADÊMICA */}
-            {data.education && data.education.length > 0 && (
-              <div className="mb-6">
-                <h2
-                  className={sectionTitleClass}
-                  style={{ color: primaryColor }}
-                >
-                  FORMAÇÃO ACADÊMICA
-                </h2>
-                {data.education.map((edu, idx) => (
-                  <div key={idx} className="mb-4">
-                    <p className="font-bold text-sm">{edu.institution}</p>
-                    <p className="text-sm">{edu.course}</p>
-                    <p className="text-sm text-gray-600">
-                      {edu.startDate} - {edu.endDate}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            )}
+            <div className="flex">
+              {/* FORMAÇÃO ACADÊMICA */}
+              {data.education && data.education.length > 0 && (
+                <div className="mb-6">
+                  <h2
+                    className={sectionTitleClass}
+                    style={{ color: primaryColor }}
+                  >
+                    FORMAÇÃO ACADÊMICA
+                  </h2>
+                  {data.education.map((edu, idx) => (
+                    <div key={idx} className="mb-4">
+                      <p className="font-bold text-sm">{edu.institution}</p>
+                      <p className="text-sm">{edu.course}</p>
+                      <p className="text-sm text-gray-600">
+                        {edu.startDate} - {edu.endDate}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
 
-            {/* HABILIDADES */}
-            {data.skills && (
-              <div className="mb-6">
-                <h2
-                  className={sectionTitleClass}
-                  style={{ color: primaryColor }}
-                >
-                  HABILIDADES
-                </h2>
-                <ul className="space-y-1">
-                  {data.skills
-                    .split('\n')
-                    .filter((skill) => skill.trim())
-                    .map((skill, idx) => (
-                      <li key={idx} className="text-sm">
-                        {skill.trim().startsWith('•')
-                          ? skill.trim()
-                          : `• ${skill.trim()}`}
-                      </li>
+              <div className='block'>
+                {/* HABILIDADES */}
+                {data.skills && (
+                  <div className="mb-6">
+                    <h2
+                      className={sectionTitleClass}
+                      style={{ color: primaryColor }}
+                    >
+                      HABILIDADES
+                    </h2>
+                    <ul className="space-y-1">
+                      {data.skills
+                        .split('\n')
+                        .filter((skill) => skill.trim())
+                        .map((skill, idx) => (
+                          <li key={idx} className="text-sm">
+                            {skill.trim().startsWith('•')
+                              ? skill.trim()
+                              : `• ${skill.trim()}`}
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* REFERÊNCIAS */}
+                {data.references && data.references.length > 0 && (
+                  <div className="mb-6">
+                    <h2
+                      className={sectionTitleClass}
+                      style={{ color: primaryColor }}
+                    >
+                      REFERÊNCIAS
+                    </h2>
+                    {data.references.map((ref, idx) => (
+                      <div key={idx} className="mb-3 text-sm">
+                        <p className="font-bold">{ref.name}</p>
+                        {ref.email && <p>E-mail: {ref.email}</p>}
+                        {ref.phone && <p>Telefone: {ref.phone}</p>}
+                      </div>
                     ))}
-                </ul>
-              </div>
-            )}
-
-            {/* REFERÊNCIAS */}
-            {data.references && data.references.length > 0 && (
-              <div className="mb-6">
-                <h2
-                  className={sectionTitleClass}
-                  style={{ color: primaryColor }}
-                >
-                  REFERÊNCIAS
-                </h2>
-                {data.references.map((ref, idx) => (
-                  <div key={idx} className="mb-3 text-sm">
-                    <p className="font-bold">{ref.name}</p>
-                    {ref.email && <p>E-mail: {ref.email}</p>}
-                    {ref.phone && <p>Telefone: {ref.phone}</p>}
                   </div>
-                ))}
+                )}
               </div>
-            )}
+            </div>
           </div>
         </div>
       </div>

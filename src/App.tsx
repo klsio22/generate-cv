@@ -3,25 +3,12 @@ import { useForm, useWatch } from 'react-hook-form';
 import { useReactToPrint } from 'react-to-print';
 import { Printer } from 'lucide-react';
 import type { CVData, SavedCV } from './types';
+import { emptyCV } from './data/defaultCV';
 import { CVForm } from './components/CVForm';
 import { CVPreview } from './components/CVPreview';
 import { useCVStorage } from './hooks/useCVStorage';
 import { Sidebar } from './components/Sidebar';
 
-const emptyCV: CVData = {
-  fullName: '',
-  jobTitle: '',
-  address: '',
-  phone: '',
-  email: '',
-  linkedin: '',
-  portfolio: '',
-  objective: '',
-  education: [],
-  experience: [],
-  skills: '',
-  references: [],
-};
 
 function App() {
   const { cvs, activeId, activeCV, setActiveId, createCV, updateCV, deleteCV, clearAll } =
