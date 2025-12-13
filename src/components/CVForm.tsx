@@ -40,6 +40,15 @@ export const CVForm: React.FC<CVFormProps> = ({ register, control }) => {
     name: 'experience',
   });
 
+  const {
+    fields: refFields,
+    append: appendRef,
+    remove: removeRef,
+  } = useFieldArray({
+    control,
+    name: 'references',
+  });
+
   return (
     <div className="bg-white p-6 shadow rounded-lg space-y-4">
       <SectionHeader title="Dados Pessoais" />
@@ -50,6 +59,16 @@ export const CVForm: React.FC<CVFormProps> = ({ register, control }) => {
           </label>
           <input
             {...register('fullName')}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Cargo / Posição
+          </label>
+          <input
+            {...register('jobTitle')}
+            placeholder="Ex: Desenvolvedor de Software"
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
           />
         </div>
@@ -82,10 +101,21 @@ export const CVForm: React.FC<CVFormProps> = ({ register, control }) => {
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700">
-            LinkedIn / Portfolio
+            LinkedIn
           </label>
           <input
             {...register('linkedin')}
+            placeholder="Ex: linkedin.com/in/seu-perfil"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Portfólio
+          </label>
+          <input
+            {...register('portfolio')}
+            placeholder="Ex: www.seusite.com.br"
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
           />
         </div>
@@ -258,9 +288,69 @@ export const CVForm: React.FC<CVFormProps> = ({ register, control }) => {
           {...register('skills')}
           rows={4}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
-          placeholder="Liste suas principais habilidades..."
+          placeholder="Liste suas principais habilidades (uma por linha)..."
         />
       </div>
+
+      <SectionHeader title="Referências" />
+      {refFields.map((field, index) => (
+        <div
+          key={field.id}
+          className="bg-gray-50 p-4 rounded-md mb-3 border relative"
+        >
+          <button
+            type="button"
+            onClick={() => removeRef(index)}
+            className="absolute top-2 right-2 text-red-500 hover:text-red-700"
+          >
+            <Trash2 size={18} />
+          </button>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Nome
+              </label>
+              <input
+                {...register(`references.${index}.name`)}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                E-mail
+              </label>
+              <input
+                {...register(`references.${index}.email`)}
+                type="email"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Telefone
+              </label>
+              <input
+                {...register(`references.${index}.phone`)}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
+              />
+            </div>
+          </div>
+        </div>
+      ))}
+      <button
+        type="button"
+        onClick={() =>
+          appendRef({
+            id: '',
+            name: '',
+            email: '',
+            phone: '',
+          })
+        }
+        className="flex items-center text-indigo-600 hover:text-indigo-800 font-medium"
+      >
+        <Plus size={18} className="mr-1" /> Adicionar Referência
+      </button>
     </div>
   );
 };

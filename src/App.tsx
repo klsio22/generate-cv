@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useReactToPrint } from 'react-to-print';
-import { Printer, Menu } from 'lucide-react';
+import { Printer } from 'lucide-react';
 import type { CVData, SavedCV } from './types';
 import { CVForm } from './components/CVForm';
 import { CVPreview } from './components/CVPreview';
@@ -10,14 +10,17 @@ import { Sidebar } from './components/Sidebar';
 
 const emptyCV: CVData = {
   fullName: '',
+  jobTitle: '',
   address: '',
   phone: '',
   email: '',
   linkedin: '',
+  portfolio: '',
   objective: '',
   education: [],
   experience: [],
   skills: '',
+  references: [],
 };
 
 function App() {
@@ -74,7 +77,7 @@ function App() {
     if (dataStr === activeStr) return;
 
     updateCV(activeId, data);
-  }, [data, activeId, updateCV]); // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, activeId, updateCV, activeCV]);
 
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({ contentRef });
@@ -104,13 +107,8 @@ function App() {
       <div className="flex-1 flex flex-col min-w-0 transition-all duration-300">
         <header className="bg-white shadow p-4 sticky top-0 z-10">
           <div className="max-w-7xl mx-auto flex justify-between items-center">
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                className="p-2 -ml-2 rounded-md hover:bg-gray-100 lg:hidden"
-              >
-                <Menu size={24} />
-              </button>
+              <div className="flex items-center gap-3">
+            
               <h1 className="text-xl md:text-2xl font-bold text-gray-800 truncate">
                 Gerador de Currículo ABNT
               </h1>
