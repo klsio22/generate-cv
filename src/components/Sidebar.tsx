@@ -22,11 +22,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
   toggleSidebar,
 }) => {
   const dialogRef = React.useRef<HTMLDialogElement | null>(null);
-  const [pendingDeleteId, setPendingDeleteId] = React.useState<string | null>(null);
+  const [pendingDeleteId, setPendingDeleteId] = React.useState<string | null>(
+    null
+  );
 
   const openConfirm = (id: string) => {
     setPendingDeleteId(id);
-    // open native dialog provided by daisyUI
     dialogRef.current?.showModal();
   };
 
@@ -114,12 +115,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <dialog ref={dialogRef} className="modal">
             <form method="dialog" className="modal-box">
               <h3 className="font-bold text-lg">Confirmar exclusão</h3>
-              <p className="py-4">Tem certeza que deseja excluir este currículo?</p>
+              <p className="py-4">
+                Tem certeza que deseja excluir este currículo?
+              </p>
               <div className="modal-action">
                 <button type="button" onClick={closeConfirm} className="btn">
                   Cancelar
                 </button>
-                <button type="button" onClick={handleConfirmDelete} className="btn btn-error">
+                <button
+                  type="button"
+                  onClick={handleConfirmDelete}
+                  className="btn btn-error"
+                >
                   Excluir
                 </button>
               </div>

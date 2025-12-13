@@ -2,7 +2,7 @@ import { useRef, useEffect, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useReactToPrint } from 'react-to-print';
 import { Printer, Menu } from 'lucide-react';
-import type { CVData } from './types';
+import type { CVData, SavedCV } from './types';
 import { CVForm } from './components/CVForm';
 import { CVPreview } from './components/CVPreview';
 import { useCVStorage } from './hooks/useCVStorage';
@@ -26,15 +26,22 @@ function App() {
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+  const initialValues = activeCV ?? emptyCV;
   const { register, control, reset } = useForm<CVData>({
-    defaultValues: activeCV || emptyCV,
+    defaultValues: initialValues,
   });
+
+  const skipSaveRef = useRef(false);
 
   // Reset form when active CV changes
   // Reset form when active CV changes (by ID)
   useEffect(() => {
     if (activeCV) {
+      // Prevent the autosave effect from writing stale data into the newly-selected CV
+      skipSaveRef.current = true;
       reset(activeCV);
+      const t = setTimeout(() => (skipSaveRef.current = false), 0);
+      return () => clearTimeout(t);
     }
     // We only want to reset when the ID changes, not when the data content changes while editing.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -43,26 +50,38 @@ function App() {
   // Watch all fields to update preview and storage
   const data = useWatch({ control }) as CVData;
 
-  // Auto-save changes to storage
+  // Auto-save changes to storage — only save when data actually differs from stored CV
   useEffect(() => {
-    if (activeId && data) {
-      // Debounce could be good here, but for local storage it's fast enough usually
-      // We need to avoid saving if data hasn't actually changed or is just initial
-      // For now, simplicity: update on change.
-      updateCV(activeId, data);
+    if (skipSaveRef.current) return;
+    if (!activeId || !data) return;
+
+    // derive the CVData part of activeCV for comparison (exclude id/title/updatedAt)
+    let activeData: CVData | null = null;
+    if (activeCV) {
+      const getCVData = (cv: SavedCV): CVData => {
+        // exclude meta fields and return the CVData portion
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { id, title, updatedAt, ...rest } = cv;
+        return rest as CVData;
+      };
+
+      activeData = getCVData(activeCV);
     }
-  }, [data, activeId, updateCV]); // Warning: updateCV needs to be stable or this loops. It is stable in hook.
+
+    const dataStr = JSON.stringify(data || {});
+    const activeStr = JSON.stringify(activeData || {});
+
+    if (dataStr === activeStr) return;
+
+    updateCV(activeId, data);
+  }, [data, activeId, updateCV]); // eslint-disable-next-line react-hooks/exhaustive-deps
 
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({ contentRef });
 
-  if (!activeCV) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        Carregando...
-      </div>
-    );
-  }
+  // Use a safe fallback to avoid showing a blank loading state while a new CV is added.
+  // The form and preview will render immediately with default values.
+  const currentCV = activeCV ?? emptyCV;
 
   return (
     <div className="min-h-screen bg-gray-100 flex font-sans">
@@ -123,7 +142,7 @@ function App() {
                   </label>
                   <input
                     type="text"
-                    defaultValue={activeCV.title}
+                    defaultValue={activeCV?.title ?? 'Novo Currículo'}
                     onBlur={(e) => {
                       if (activeId) {
                         updateCV(activeId, { title: e.target.value });
@@ -135,7 +154,7 @@ function App() {
                 </div>
 
                 <CVForm
-                  defaultValues={activeCV}
+                  defaultValues={currentCV}
                   onSubmit={() => {}}
                   register={register}
                   control={control}
