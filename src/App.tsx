@@ -31,11 +31,14 @@ function App() {
   });
 
   // Reset form when active CV changes
+  // Reset form when active CV changes (by ID)
   useEffect(() => {
     if (activeCV) {
       reset(activeCV);
     }
-  }, [activeCV, reset]);
+    // We only want to reset when the ID changes, not when the data content changes while editing.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeId, reset]);
 
   // Watch all fields to update preview and storage
   const data = useWatch({ control }) as CVData;
@@ -113,8 +116,24 @@ function App() {
                 Editar Informações
               </h2>
               <div key={activeId}>
-                {' '}
-                {/* Key ensures re-render if needed, though reset handles values */}
+                {/* CV Title Input */}
+                <div className="bg-white p-6 shadow rounded-lg mb-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Nome do documento
+                  </label>
+                  <input
+                    type="text"
+                    defaultValue={activeCV.title}
+                    onBlur={(e) => {
+                      if (activeId) {
+                        updateCV(activeId, { title: e.target.value });
+                      }
+                    }}
+                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
+                    placeholder="Ex: Currículo Tech, Currículo Admin..."
+                  />
+                </div>
+
                 <CVForm
                   defaultValues={activeCV}
                   onSubmit={() => {}}

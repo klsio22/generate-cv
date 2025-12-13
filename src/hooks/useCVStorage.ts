@@ -98,17 +98,13 @@ export function useCVStorage() {
     }
   }, [cvs]);
 
-  const updateCV = useCallback((id: string, data: CVData) => {
+  const updateCV = useCallback((id: string, data: Partial<SavedCV>) => {
     setCvs((prev) =>
       prev.map((cv) =>
         cv.id === id
           ? {
               ...cv,
               ...data,
-              title:
-                data.fullName && data.fullName !== 'Seu Nome'
-                  ? data.fullName
-                  : cv.title,
               updatedAt: Date.now(),
             }
           : cv
