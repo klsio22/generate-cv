@@ -47,7 +47,7 @@ export const Modal: React.FC<ModalProps> = ({
           <div className="flex items-center justify-between px-6 py-4 border-b">
             <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
             <button
-              aria-label="Fechar"
+              aria-label="Fechar modal"
               onClick={onCancel}
               className="text-gray-400 hover:text-gray-600 p-1 rounded"
             >
