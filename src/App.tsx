@@ -2,17 +2,24 @@ import { useRef, useEffect, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useReactToPrint } from 'react-to-print';
 import { Printer } from 'lucide-react';
-import type { CVData, SavedCV } from './types';
+import type { CVData } from './types';
 import { emptyCV } from './data/defaultCV';
 import { CVForm } from './components/CVForm';
 import { CVPreview } from './components/CVPreview';
 import { useCVStorage } from './hooks/useCVStorage';
 import { Sidebar } from './components/Sidebar';
 
-
 function App() {
-  const { cvs, activeId, activeCV, setActiveId, createCV, updateCV, deleteCV, clearAll } =
-    useCVStorage();
+  const {
+    cvs,
+    activeId,
+    activeCV,
+    setActiveId,
+    createCV,
+    updateCV,
+    deleteCV,
+    clearAll,
+  } = useCVStorage();
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -23,39 +30,26 @@ function App() {
 
   const skipSaveRef = useRef(false);
 
-  // Reset form when active CV changes
-  // Reset form when active CV changes (by ID)
   useEffect(() => {
     if (activeCV) {
-      // Prevent the autosave effect from writing stale data into the newly-selected CV
       skipSaveRef.current = true;
       reset(activeCV);
       const t = setTimeout(() => (skipSaveRef.current = false), 0);
       return () => clearTimeout(t);
     }
-    // We only want to reset when the ID changes, not when the data content changes while editing.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeId, reset]);
+  }, [activeId, reset, activeCV]);
 
-  // Watch all fields to update preview and storage
   const data = useWatch({ control }) as CVData;
 
-  // Auto-save changes to storage — only save when data actually differs from stored CV
   useEffect(() => {
     if (skipSaveRef.current) return;
     if (!activeId || !data) return;
 
-    // derive the CVData part of activeCV for comparison (exclude id/title/updatedAt)
     let activeData: CVData | null = null;
     if (activeCV) {
-      const getCVData = (cv: SavedCV): CVData => {
-        // exclude meta fields and return the CVData portion
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { id, title, updatedAt, ...rest } = cv;
-        return rest as CVData;
-      };
-
-      activeData = getCVData(activeCV);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { id, title, updatedAt, ...rest } = activeCV;
+      activeData = rest as CVData;
     }
 
     const dataStr = JSON.stringify(data || {});
@@ -63,7 +57,12 @@ function App() {
 
     if (dataStr === activeStr) return;
 
-    updateCV(activeId, data);
+    // Debounce updates so we don't dispatch on every keystroke
+    const timer = setTimeout(() => {
+      updateCV(activeId, data);
+    }, 600);
+
+    return () => clearTimeout(timer);
     // activeCV is read inside but should not be a dependency to avoid infinite loops
     // since it's recreated on every render from cvs.find()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -72,8 +71,6 @@ function App() {
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({ contentRef });
 
-  // Use a safe fallback to avoid showing a blank loading state while a new CV is added.
-  // The form and preview will render immediately with default values.
   const currentCV = activeCV ?? emptyCV;
 
   return (
@@ -98,8 +95,7 @@ function App() {
       <div className="flex-1 flex flex-col min-w-0 transition-all duration-300">
         <header className="bg-white shadow p-4 sticky top-0 z-10">
           <div className="max-w-7xl mx-auto flex justify-between items-center">
-              <div className="flex items-center gap-3">
-            
+            <div className="flex items-center gap-3">
               <h1 className="text-xl md:text-2xl font-bold text-gray-800 truncate">
                 Gerador de Currículo ABNT
               </h1>
