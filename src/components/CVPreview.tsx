@@ -27,7 +27,7 @@ export const CVPreview = React.forwardRef<HTMLDivElement, CVPreviewProps>(
     return (
       <div
         ref={ref}
-        className="bg-white text-black p-14 w-[210mm] min-h-[297mm] shadow-lg mx-auto print:shadow-none print:w-full print:mx-0"
+        className="bg-white text-black pt-8 px-12 w-[210mm] min-h-[297mm] shadow-lg mx-auto print:shadow-none print:w-full print:mx-0"
         style={{ fontFamily: 'Arial, sans-serif' }}
       >
         <div className="flex justify-between ">
@@ -143,7 +143,7 @@ export const CVPreview = React.forwardRef<HTMLDivElement, CVPreviewProps>(
             )}
           </div>
 
-          <div className="flex justify-between">
+          <div className="flex justify-between pt-10">
             {/* FORMAÇÃO ACADÊMICA */}
             {data.education && data.education.length > 0 && (
               <div className="mb-6">
@@ -189,7 +189,7 @@ export const CVPreview = React.forwardRef<HTMLDivElement, CVPreviewProps>(
               </div>
             )}
 
-            <div className="block w-62.5">
+            <div className="block w-2/5">
               {/* HABILIDADES */}
               {data.skills && (
                 <div className="mb-6">

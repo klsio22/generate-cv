@@ -136,7 +136,7 @@ function App() {
               </h1>
             </div>
 
-            <button
+              <button
               onClick={() => reactToPrintFn()}
               className="flex items-center gap-2 bg-indigo-600 text-white px-3 py-2 md:px-4 md:py-2 rounded-md hover:bg-indigo-700 transition text-sm md:text-base whitespace-nowrap"
             >
