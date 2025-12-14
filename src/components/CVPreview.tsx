@@ -263,7 +263,7 @@ export const CVPreview = React.forwardRef<HTMLDivElement, CVPreviewProps>(
       const topSkills = skillsList.slice(0, 6);
 
       return (
-        <div className="relative w-40 bg-gradient-to-b from-blue-900 to-blue-800 text-white pt-6 px-3 flex flex-col min-h-full">
+        <div className="relative w-40 bg-linear-to-b from-blue-900 to-blue-800 text-white pt-6 px-3 flex flex-col min-h-full">
           <div className="mb-6 pb-4 border-b border-blue-700">
             <p className="font-bold text-xs text-white">{data.fullName}</p>
           </div>
@@ -271,15 +271,32 @@ export const CVPreview = React.forwardRef<HTMLDivElement, CVPreviewProps>(
           {/* Contato */}
           <div className="mb-4">
             <h3 className="text-xs font-semibold text-white mb-1">Contato</h3>
-            <div className="text-white text-xs leading-tight break-words">
+            <div className="text-white text-xs leading-6 break-words">
               {data.email && <p className="break-words">{data.email}</p>}
               {data.phone && <p className="break-words">{data.phone}</p>}
-              {data.address && <p className="break-words">{data.address}</p>}
               {/** opcional: campos extras comuns */}
               {(data.linkedin || data.portfolio) && (
-                <div className="mt-1">
-                  {data.linkedin && <p className="break-words">{data.linkedin}</p>}
-                  {data.portfolio && <p className="break-words">{data.portfolio}</p>}
+                <div className="mt-0.5 space-y-0.5">
+                  {data.linkedin && (
+                    <a
+                      href={data.linkedin.startsWith('http') ? data.linkedin : `https://${data.linkedin}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="break-words leading-tight mb-1.5 text-white underline block"
+                    >
+                      {data.linkedin}
+                    </a>
+                  )}
+                  {data.portfolio && (
+                    <a
+                      href={data.portfolio.startsWith('http') ? data.portfolio : `https://${data.portfolio}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="break-words leading-tight text-white underline block"
+                    >
+                      {data.portfolio}
+                    </a>
+                  )}
                 </div>
               )}
             </div>
@@ -289,7 +306,7 @@ export const CVPreview = React.forwardRef<HTMLDivElement, CVPreviewProps>(
           {topSkills.length > 0 && (
             <div className="mb-4">
               <h3 className="text-xs font-semibold text-white mb-1">Principais competências</h3>
-              <ul className="text-white text-xs leading-tight list-none space-y-1">
+              <ul className="text-white text-xs leading-6 list-none space-y-1">
                 {topSkills.map((s, i) => (
                   <li key={i} className="break-words">{s.replace(/^•\s*/, '')}</li>
                 ))}
