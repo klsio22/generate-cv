@@ -263,7 +263,7 @@ export const CVPreview = React.forwardRef<HTMLDivElement, CVPreviewProps>(
       const topSkills = skillsList.slice(0, 6);
 
       return (
-        <div className="relative w-40 bg-linear-to-b from-blue-900 to-blue-800 text-white pt-6 px-3 flex flex-col min-h-full">
+        <div className="relative w-48 bg-linear-to-b from-blue-900 to-blue-800 text-white pt-6 px-3 flex flex-col min-h-full">
           <div className="mb-6 pb-4 border-b border-blue-700">
             <p className="font-bold text-xs text-white">{data.fullName}</p>
           </div>
