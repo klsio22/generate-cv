@@ -257,16 +257,50 @@ export const CVPreview = React.forwardRef<HTMLDivElement, CVPreviewProps>(
       </div>
     );
 
-    // Sidebar content (nome apenas; datas agora aparecem ao lado das experiências)
-    const renderSidebar = () => (
-      <div className="w-32 bg-gradient-to-b from-blue-900 to-blue-800 text-white pt-6 px-3 flex flex-col min-h-full">
-        <div className="mb-6 pb-4 border-b border-blue-700">
-          <p className="font-bold text-xs text-white">{data.fullName}</p>
-        </div>
+    // Sidebar content: contato + principais competências (com quebra de texto)
+    const renderSidebar = () => {
+      const skillsList = data.skills?.split('\n').map((s) => s.trim()).filter(Boolean) || [];
+      const topSkills = skillsList.slice(0, 6);
 
-        <div className="flex-1" />
-      </div>
-    );
+      return (
+        <div className="relative w-40 bg-gradient-to-b from-blue-900 to-blue-800 text-white pt-6 px-3 flex flex-col min-h-full">
+          <div className="mb-6 pb-4 border-b border-blue-700">
+            <p className="font-bold text-xs text-white">{data.fullName}</p>
+          </div>
+
+          {/* Contato */}
+          <div className="mb-4">
+            <h3 className="text-xs font-semibold text-white mb-1">Contato</h3>
+            <div className="text-white text-xs leading-tight break-words">
+              {data.email && <p className="break-words">{data.email}</p>}
+              {data.phone && <p className="break-words">{data.phone}</p>}
+              {data.address && <p className="break-words">{data.address}</p>}
+              {/** opcional: campos extras comuns */}
+              {(data.linkedin || data.portfolio) && (
+                <div className="mt-1">
+                  {data.linkedin && <p className="break-words">{data.linkedin}</p>}
+                  {data.portfolio && <p className="break-words">{data.portfolio}</p>}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Principais competências */}
+          {topSkills.length > 0 && (
+            <div className="mb-4">
+              <h3 className="text-xs font-semibold text-white mb-1">Principais competências</h3>
+              <ul className="text-white text-xs leading-tight list-none space-y-1">
+                {topSkills.map((s, i) => (
+                  <li key={i} className="break-words">{s.replace(/^•\s*/, '')}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <div className="flex-1" />
+        </div>
+      );
+    };
 
     // Main content
     const renderMainContent = (pageKeys: string[]) => (
