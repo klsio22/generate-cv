@@ -10,7 +10,7 @@ export const CVPreview = React.forwardRef<HTMLDivElement, CVPreviewProps>(
     // Styling constants - cor azul da imagem: #4657F1
     const primaryColor = '#4657F1';
     const sectionTitleClass = 'uppercase font-bold text-[12px] mb-3';
-    const textClass = 'text-sm leading-relaxed mb-2';
+    const textClass = 'text-[11px] leading-relaxed mb-2';
 
     return (
       <div
@@ -22,12 +22,12 @@ export const CVPreview = React.forwardRef<HTMLDivElement, CVPreviewProps>(
           {/* Header - Nome e Cargo */}
           <div className="flex flex-col w-1/2">
             <h1
-              className="font-bold text-4xl mb-2"
+              className="font-bold text-3xl mb-2"
               style={{ color: primaryColor }}
             >
               {data.fullName}
             </h1>
-            <p className="text-xl uppercase font-normal">
+            <p className="text-sm uppercase font-normal">
               {data.jobTitle || 'Profissional'}
             </p>
           </div>
@@ -59,6 +59,11 @@ export const CVPreview = React.forwardRef<HTMLDivElement, CVPreviewProps>(
                   <p>
                     <span className="font-semibold">Telefone:</span>{' '}
                     {data.phone}
+                  </p>
+                )}
+                {data.address && (
+                  <p>
+                    <span className="font-semibold">Endereço:</span> {data.address}
                   </p>
                 )}
               </div>
@@ -104,7 +109,7 @@ export const CVPreview = React.forwardRef<HTMLDivElement, CVPreviewProps>(
                           .split('\n')
                           .filter((line) => line.trim())
                           .map((line, i) => (
-                            <li key={i} className="text-sm leading-relaxed">
+                            <li key={i} className="text-[11px] leading-relaxed">
                               {line.trim()}
                             </li>
                           ))}
@@ -113,7 +118,7 @@ export const CVPreview = React.forwardRef<HTMLDivElement, CVPreviewProps>(
                     {exp.achievements && exp.achievements.length > 0 && (
                       <ul className="list-disc ml-5 space-y-1">
                         {exp.achievements.map((achievement, i) => (
-                          <li key={i} className="text-sm leading-relaxed">
+                          <li key={i} className="text-[11px] leading-relaxed">
                             {achievement}
                           </li>
                         ))}
@@ -162,7 +167,7 @@ export const CVPreview = React.forwardRef<HTMLDivElement, CVPreviewProps>(
                       .split('\n')
                       .filter((skill) => skill.trim())
                       .map((skill, idx) => (
-                        <li key={idx} className="text-sm">
+                        <li key={idx} className="text-[11px]">
                           {skill.trim().startsWith('•')
                             ? skill.trim()
                             : `• ${skill.trim()}`}
