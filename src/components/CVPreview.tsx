@@ -20,7 +20,7 @@ export const CVPreview = React.forwardRef<HTMLDivElement, CVPreviewProps>(
     };
 
     // --- Pagination logic -------------------------------------------------
-    const mmToPx = (mm: number) => (mm * 96) / 28.4;
+    const mmToPx = (mm: number) => (mm * 96) / 30.4;
     const PAGE_HEIGHT_PX = mmToPx(297);
     const RESERVED_PX = 100; // top + bottom padding
     const PAGE_INNER_PX = PAGE_HEIGHT_PX - RESERVED_PX;
@@ -271,9 +271,9 @@ export const CVPreview = React.forwardRef<HTMLDivElement, CVPreviewProps>(
           {/* Contato */}
           <div className="mb-4">
             <h3 className="text-xs font-semibold text-white mb-1">Contato</h3>
-            <div className="text-white text-xs leading-6 break-words">
-              {data.email && <p className="break-words">{data.email}</p>}
-              {data.phone && <p className="break-words">{data.phone}</p>}
+              <div className="text-white text-xs leading-6 wrap-break-word">
+              {data.email && <p className="wrap-break-word">{data.email}</p>}
+              {data.phone && <p className="wrap-break-word">{data.phone}</p>}
               {/** opcional: campos extras comuns */}
               {(data.linkedin || data.portfolio) && (
                 <div className="mt-0.5 space-y-0.5">
@@ -282,7 +282,7 @@ export const CVPreview = React.forwardRef<HTMLDivElement, CVPreviewProps>(
                       href={data.linkedin.startsWith('http') ? data.linkedin : `https://${data.linkedin}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="break-words leading-tight mb-1.5 text-white underline block"
+                      className="wrap-break-word leading-tight mb-1.5 text-white underline block"
                     >
                       {data.linkedin}
                     </a>
@@ -292,7 +292,7 @@ export const CVPreview = React.forwardRef<HTMLDivElement, CVPreviewProps>(
                       href={data.portfolio.startsWith('http') ? data.portfolio : `https://${data.portfolio}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="break-words leading-tight text-white underline block"
+                      className="wrap-break-word leading-tight text-white underline block"
                     >
                       {data.portfolio}
                     </a>
@@ -308,7 +308,7 @@ export const CVPreview = React.forwardRef<HTMLDivElement, CVPreviewProps>(
               <h3 className="text-xs font-semibold text-white mb-1">Principais competências</h3>
               <ul className="text-white text-xs leading-6 list-none space-y-1">
                 {topSkills.map((s, i) => (
-                  <li key={i} className="break-words">{s.replace(/^•\s*/, '')}</li>
+                  <li key={i} className="wrap-break-word">{s.replace(/^•\s*/, '')}</li>
                 ))}
               </ul>
             </div>

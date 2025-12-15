@@ -121,7 +121,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     : 'hover:bg-gray-800 border-l-4 border-transparent'
                 }`}
               >
-                <div className="flex items-center gap-3 overflow-hidden">
+                <div className="flex items-center gap-3">
                   <FileText
                     size={18}
                     className={
@@ -129,7 +129,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     }
                   />
                   <div className="flex flex-col truncate">
-                    <span className="truncate font-medium text-sm">
+                    <span className="font-medium text-sm wrap-break-word whitespace-normal">
                       {cv.title}
                     </span>
                     <span className="text-xs text-gray-500">
