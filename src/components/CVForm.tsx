@@ -74,66 +74,73 @@ export const CVForm: React.FC<CVFormProps> = ({
       <SectionHeader title="Dados Pessoais" />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">
             Nome Completo
           </label>
           <input
+            id="fullName"
             {...reg('fullName')}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label htmlFor="jobTitle" className="block text-sm font-medium text-gray-700">
             Cargo / Posição
           </label>
           <input
+            id="jobTitle"
             {...reg('jobTitle')}
             placeholder="Ex: Desenvolvedor de Software"
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
             Email
           </label>
           <input
+            id="email"
             {...reg('email')}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
             Telefone
           </label>
           <input
+            id="phone"
             {...reg('phone')}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label htmlFor="address" className="block text-sm font-medium text-gray-700">
             Endereço
           </label>
           <input
+            id="address"
             {...reg('address')}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label htmlFor="linkedin" className="block text-sm font-medium text-gray-700">
             LinkedIn
           </label>
           <input
+            id="linkedin"
             {...reg('linkedin')}
             placeholder="Ex: linkedin.com/in/seu-perfil"
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label htmlFor="portfolio" className="block text-sm font-medium text-gray-700">
             Portfólio
           </label>
           <input
+            id="portfolio"
             {...reg('portfolio')}
             placeholder="Ex: www.seusite.com.br"
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
@@ -143,7 +150,9 @@ export const CVForm: React.FC<CVFormProps> = ({
 
       <SectionHeader title="Objetivo Profissional" />
       <div>
+        <label htmlFor="objective" className="sr-only">Objetivo Profissional</label>
         <textarea
+          id="objective"
           {...reg('objective')}
           rows={3}
           className="mt-1 block w-full h-40 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
@@ -159,54 +168,53 @@ export const CVForm: React.FC<CVFormProps> = ({
         >
           <button
             type="button"
-            onClick={() => removeExp(index)}
+            onClick={() => {
+              removeExp(index);
+              // let react-hook-form update internal state, then trigger save
+              setTimeout(() => callSave(), 0);
+            }}
             className="absolute top-2 right-2 text-red-500 hover:text-red-700"
           >
             <Trash2 size={18} />
           </button>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Empresa
-              </label>
+              <label htmlFor={`experience-${index}-company`} className="block text-sm font-medium text-gray-700">Empresa</label>
               <input
-                {...reg(`experience.${index}.company`)}
+                id={`experience-${index}-company`}
+                {...reg((`experience.${index}.company`) as Path<CVData>)}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Cargo
-              </label>
+              <label htmlFor={`experience-${index}-role`} className="block text-sm font-medium text-gray-700">Cargo</label>
               <input
-                {...reg(`experience.${index}.role`)}
+                id={`experience-${index}-role`}
+                {...reg((`experience.${index}.role`) as Path<CVData>)}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Início
-              </label>
+              <label htmlFor={`experience-${index}-startDate`} className="block text-sm font-medium text-gray-700">Início</label>
               <input
-                {...reg(`experience.${index}.startDate`)}
+                id={`experience-${index}-startDate`}
+                {...reg((`experience.${index}.startDate`) as Path<CVData>)}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Término
-              </label>
+              <label htmlFor={`experience-${index}-endDate`} className="block text-sm font-medium text-gray-700">Término</label>
               <input
-                {...reg(`experience.${index}.endDate`)}
+                id={`experience-${index}-endDate`}
+                {...reg((`experience.${index}.endDate`) as Path<CVData>)}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
               />
             </div>
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700">
-                Descrição das Atividades
-              </label>
+              <label htmlFor={`experience-${index}-description`} className="block text-sm font-medium text-gray-700">Descrição das Atividades</label>
               <textarea
-                {...reg(`experience.${index}.description`)}
+                id={`experience-${index}-description`}
+                {...reg((`experience.${index}.description`) as Path<CVData>)}
                 rows={3}
                 className="mt-1 block w-full h-40 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
               />
@@ -216,7 +224,7 @@ export const CVForm: React.FC<CVFormProps> = ({
       ))}
       <button
         type="button"
-        onClick={() =>
+        onClick={() => {
           appendExp({
             id: '',
             role: '',
@@ -224,8 +232,9 @@ export const CVForm: React.FC<CVFormProps> = ({
             startDate: '',
             endDate: '',
             description: '',
-          })
-        }
+          });
+          setTimeout(() => callSave(), 0);
+        }}
         className="flex items-center text-indigo-600 hover:text-indigo-800 font-medium"
       >
         <Plus size={18} className="mr-1" /> Adicionar Experiência
@@ -239,46 +248,45 @@ export const CVForm: React.FC<CVFormProps> = ({
         >
           <button
             type="button"
-            onClick={() => removeEdu(index)}
+            onClick={() => {
+              removeEdu(index);
+              setTimeout(() => callSave(), 0);
+            }}
             className="absolute top-2 right-2 text-red-500 hover:text-red-700"
           >
             <Trash2 size={18} />
           </button>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Curso
-              </label>
+              <label htmlFor={`education-${index}-course`} className="block text-sm font-medium text-gray-700">Curso</label>
               <input
-                {...reg(`education.${index}.course`)}
+                id={`education-${index}-course`}
+                {...reg((`education.${index}.course`) as Path<CVData>)}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Instituição
-              </label>
+              <label htmlFor={`education-${index}-institution`} className="block text-sm font-medium text-gray-700">Instituição</label>
               <input
-                {...reg(`education.${index}.institution`)}
+                id={`education-${index}-institution`}
+                {...reg((`education.${index}.institution`) as Path<CVData>)}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Início
-              </label>
+              <label htmlFor={`education-${index}-startDate`} className="block text-sm font-medium text-gray-700">Início</label>
               <input
-                {...reg(`education.${index}.startDate`)}
+                id={`education-${index}-startDate`}
+                {...reg((`education.${index}.startDate`) as Path<CVData>)}
                 placeholder="Ex: 2018"
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Término
-              </label>
+              <label htmlFor={`education-${index}-endDate`} className="block text-sm font-medium text-gray-700">Término</label>
               <input
-                {...reg(`education.${index}.endDate`)}
+                id={`education-${index}-endDate`}
+                {...reg((`education.${index}.endDate`) as Path<CVData>)}
                 placeholder="Ex: 2022"
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
               />
@@ -288,15 +296,16 @@ export const CVForm: React.FC<CVFormProps> = ({
       ))}
       <button
         type="button"
-        onClick={() =>
+        onClick={() => {
           appendEdu({
             id: '',
             course: '',
             institution: '',
             startDate: '',
             endDate: '',
-          })
-        }
+          });
+          setTimeout(() => callSave(), 0);
+        }}
         className="flex items-center text-indigo-600 hover:text-indigo-800 font-medium"
       >
         <Plus size={18} className="mr-1" /> Adicionar Formação
@@ -304,7 +313,9 @@ export const CVForm: React.FC<CVFormProps> = ({
 
       <SectionHeader title="Habilidades e Qualificações" />
       <div>
+        <label htmlFor="skills" className="sr-only">Habilidades</label>
         <textarea
+          id="skills"
           {...reg('skills')}
           rows={4}
           className="mt-1 block w-full h-40 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
@@ -314,7 +325,9 @@ export const CVForm: React.FC<CVFormProps> = ({
 
       <SectionHeader title="Idiomas" />
       <div>
+        <label htmlFor="languages" className="sr-only">Idiomas</label>
         <textarea
+          id="languages"
           {...reg('languages')}
           rows={3}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
@@ -324,7 +337,9 @@ export const CVForm: React.FC<CVFormProps> = ({
 
       <SectionHeader title="Soft Skills" />
       <div>
+        <label htmlFor="softSkills" className="sr-only">Soft Skills</label>
         <textarea
+          id="softSkills"
           {...reg('softSkills')}
           rows={3}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
@@ -337,23 +352,28 @@ export const CVForm: React.FC<CVFormProps> = ({
         <div key={field.id} className="bg-gray-50 p-4 rounded-md mb-3 border relative">
           <button
             type="button"
-            onClick={() => removeCustom(index)}
+            onClick={() => {
+              removeCustom(index);
+              setTimeout(() => callSave(), 0);
+            }}
             className="absolute top-2 right-2 text-red-500 hover:text-red-700"
           >
             <Trash2 size={18} />
           </button>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">Rótulo</label>
+              <label htmlFor={`customFields-${index}-label`} className="block text-sm font-medium text-gray-700">Rótulo</label>
               <input
+                id={`customFields-${index}-label`}
                 {...reg((`customFields.${index}.label`) as Path<CVData>)}
                 placeholder="Ex: Certificações"
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Valor</label>
+              <label htmlFor={`customFields-${index}-value`} className="block text-sm font-medium text-gray-700">Valor</label>
               <input
+                id={`customFields-${index}-value`}
                 {...reg((`customFields.${index}.value`) as Path<CVData>)}
                 placeholder="Conteúdo do campo"
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
@@ -364,9 +384,10 @@ export const CVForm: React.FC<CVFormProps> = ({
       ))}
       <button
         type="button"
-        onClick={() =>
-          appendCustom({ id: '', label: '', value: '' })
-        }
+        onClick={() => {
+          appendCustom({ id: '', label: '', value: '' });
+          setTimeout(() => callSave(), 0);
+        }}
         className="flex items-center text-indigo-600 hover:text-indigo-800 font-medium"
       >
         <Plus size={18} className="mr-1" /> Adicionar Campo
@@ -380,37 +401,37 @@ export const CVForm: React.FC<CVFormProps> = ({
         >
           <button
             type="button"
-            onClick={() => removeRef(index)}
+            onClick={() => {
+              removeRef(index);
+              setTimeout(() => callSave(), 0);
+            }}
             className="absolute top-2 right-2 text-red-500 hover:text-red-700"
           >
             <Trash2 size={18} />
           </button>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Nome
-              </label>
+              <label htmlFor={`references-${index}-name`} className="block text-sm font-medium text-gray-700">Nome</label>
               <input
-                {...reg(`references.${index}.name`)}
+                id={`references-${index}-name`}
+                {...reg((`references.${index}.name`) as Path<CVData>)}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                E-mail
-              </label>
+              <label htmlFor={`references-${index}-email`} className="block text-sm font-medium text-gray-700">E-mail</label>
               <input
-                {...reg(`references.${index}.email`)}
+                id={`references-${index}-email`}
+                {...reg((`references.${index}.email`) as Path<CVData>)}
                 type="email"
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Telefone
-              </label>
+              <label htmlFor={`references-${index}-phone`} className="block text-sm font-medium text-gray-700">Telefone</label>
               <input
-                {...reg(`references.${index}.phone`)}
+                id={`references-${index}-phone`}
+                {...reg((`references.${index}.phone`) as Path<CVData>)}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
               />
             </div>
@@ -419,14 +440,15 @@ export const CVForm: React.FC<CVFormProps> = ({
       ))}
       <button
         type="button"
-        onClick={() =>
+        onClick={() => {
           appendRef({
             id: '',
             name: '',
             email: '',
             phone: '',
-          })
-        }
+          });
+          setTimeout(() => callSave(), 0);
+        }}
         className="flex items-center text-indigo-600 hover:text-indigo-800 font-medium"
       >
         <Plus size={18} className="mr-1" /> Adicionar Referência
