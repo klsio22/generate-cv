@@ -29,7 +29,7 @@ function App() {
   const [showClearModal, setShowClearModal] = useState(false);
 
   const initialValues = activeCV ?? emptyCV;
-  const { register, control, reset } = useForm<CVData>({
+  const { register, control, reset, getValues } = useForm<CVData>({
     defaultValues: initialValues,
   });
 
@@ -50,7 +50,9 @@ function App() {
   const handleSave = () => {
     if (skipSaveRef.current) return;
     if (!activeId || !data) return;
-    updateCV(activeId, data);
+    const current = getValues();
+    console.debug('[App] handleSave saving activeId=', activeId, 'education length=', current.education?.length);
+    updateCV(activeId, current);
   };
 
   // Sidebar requests
