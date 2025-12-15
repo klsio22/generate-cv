@@ -346,7 +346,7 @@ export const CVForm: React.FC<CVFormProps> = ({
             <div>
               <label className="block text-sm font-medium text-gray-700">Rótulo</label>
               <input
-                {...reg(`customFields.${index}.label` as Path<CVData>)}
+                {...reg((`customFields.${index}.label`) as Path<CVData>)}
                 placeholder="Ex: Certificações"
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
               />
@@ -354,7 +354,7 @@ export const CVForm: React.FC<CVFormProps> = ({
             <div>
               <label className="block text-sm font-medium text-gray-700">Valor</label>
               <input
-                {...reg(`customFields.${index}.value` as Path<CVData>)}
+                {...reg((`customFields.${index}.value`) as Path<CVData>)}
                 placeholder="Conteúdo do campo"
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
               />
