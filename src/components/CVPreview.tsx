@@ -8,15 +8,10 @@ interface CVPreviewProps {
 export const CVPreview = React.forwardRef<HTMLDivElement, CVPreviewProps>(
   ({ data }: CVPreviewProps, ref: React.ForwardedRef<HTMLDivElement>) => {
 
-    // Format date helper
+    // Format date helper: return user-provided text as-is to allow free-text dates
     const formatDate = (dateStr: string | undefined): string => {
       if (!dateStr) return '';
-      try {
-        const date = new Date(dateStr);
-        return date.toLocaleDateString('pt-BR', { month: '2-digit', year: 'numeric' });
-      } catch {
-        return dateStr;
-      }
+      return dateStr.trim();
     };
 
     // --- Pagination logic -------------------------------------------------
