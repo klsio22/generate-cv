@@ -61,4 +61,4 @@ export const defaultCV: CVData = {
   ],
 };
 
-export const emptyCV: CVData = defaultCV;
+export const emptyCV: CVData = structuredClone(defaultCV);

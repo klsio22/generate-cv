@@ -108,6 +108,12 @@ export const CVPreview = React.forwardRef<HTMLDivElement, CVPreviewProps>(
                   <div key={idx}>
                     <p className="font-bold text-sm text-gray-900">{edu.institution}</p>
                     <p className="text-xs text-gray-600 italic">{edu.course}</p>
+                    {/** Show free-text dates provided by the user (no parsing) */}
+                    {(edu.startDate || edu.endDate) && (
+                      <div className="text-xs text-gray-600 mb-1">
+                        {formatDate(edu.startDate)}{edu.endDate ? ` - ${formatDate(edu.endDate)}` : ''}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
