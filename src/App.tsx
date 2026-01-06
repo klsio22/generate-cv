@@ -2,10 +2,11 @@ import { useRef, useEffect, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useReactToPrint } from 'react-to-print';
 import { Printer } from 'lucide-react';
+import { PDFDownloadLink } from '@react-pdf/renderer';
 import type { CVData } from './types';
 import { emptyCV } from './data/defaultCV';
 import { CVForm } from './components/CVForm';
-import { CVPreview } from './components/CVPreview';
+import { PDFPreview, CVDocument } from './components/PDFPreview';
 import { useCVStorage } from './hooks/useCVStorage';
 import { Sidebar } from './components/Sidebar';
 import { Modal } from './components/Modal';
@@ -138,14 +139,22 @@ function App() {
               </h1>
             </div>
 
-              <button
-              onClick={() => reactToPrintFn()}
-              className="flex items-center gap-2 bg-indigo-600 text-white px-3 py-2 md:px-4 md:py-2 rounded-md hover:bg-indigo-700 transition text-sm md:text-base whitespace-nowrap"
+            <PDFDownloadLink
+              document={<CVDocument data={data} />}
+              fileName={`CV_${data.fullName.replaceAll(' ', '_')}.pdf`}
             >
-              <Printer size={20} />
-              <span className="hidden md:inline">Gerar PDF / Imprimir</span>
-              <span className="md:hidden">PDF</span>
-            </button>
+              {({ loading }) => (
+                <button
+                  disabled={loading}
+                  onClick={() => reactToPrintFn()}
+                  className="flex items-center gap-2 bg-indigo-600 text-white px-3 py-2 md:px-4 md:py-2 rounded-md hover:bg-indigo-700 transition text-sm md:text-base whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <Printer size={20} />
+                  <span className="hidden md:inline">Baixar Currículo</span>
+                  <span className="md:hidden">PDF</span>
+                </button>
+              )}
+            </PDFDownloadLink>
           </div>
         </header>
 
@@ -196,9 +205,9 @@ function App() {
                 </span>
               </div>
 
-              {/* The wrapper handles the scaling and overflow for the preview on screen */}
-              <div className="overflow-auto border rounded bg-gray-300 flex justify-center shadow-inner max-h-[calc(100vh-200px)]">
-                <CVPreview ref={contentRef} data={data} />
+              {/* PDF Download Button */}
+              <div className="flex justify-center">
+                <PDFPreview data={data} />
               </div>
             </div>
           </div>
