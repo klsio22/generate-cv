@@ -9,6 +9,7 @@ import {
   Link,
 } from '@react-pdf/renderer';
 import type { CVData } from '../types';
+import { formatDate, wrapAndTruncate } from '../utils/textUtils';
 
 export interface PDFPreviewProps {
   data: CVData;
@@ -153,35 +154,7 @@ const styles = StyleSheet.create({
   },
 });
 
-// Helper function to format dates
-const formatDate = (dateStr: string | undefined): string => {
-  if (!dateStr) return '';
-  return dateStr.trim();
-};
-
-// Wrap text into multiple lines (by character limit) and truncate after maxLines
-// naive chunking by characters to account for long tokens (URLs)
-const wrapAndTruncate = (
-  text: string | undefined,
-  lineLimit = 30,
-  maxLines = 2
-): string => {
-  if (!text) return '';
-  const chunks: string[] = [];
-  for (let i = 0; i < maxLines; i++) {
-    const start = i * lineLimit;
-    const end = start + lineLimit;
-    if (start >= text.length) break;
-    chunks.push(text.slice(start, end));
-  }
-  const used = chunks.join('');
-  const overflow = text.length > used.length;
-  
-  if (!overflow) return chunks.join('\n');
-  const last = chunks.at(-1) || '';
-  chunks[chunks.length - 1] = last.slice(0, Math.max(0, lineLimit - 3)) + '...';
-  return chunks.join('\n');
-};
+// date and text helpers moved to src/utils/textUtils.ts
 
 // PDF Document Component
 const CVDocument: React.FC<PDFPreviewProps> = ({ data }) => {
@@ -386,7 +359,7 @@ export const PDFPreview = ({ data }: PDFPreviewProps) => {
   return (
     <div
       style={{
-        height: 800,
+        height: 768,
         border: '1px solid #e5e7eb',
         borderRadius: 8,
         overflow: 'hidden',
