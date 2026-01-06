@@ -15,7 +15,7 @@ export const CVPreview = React.forwardRef<HTMLDivElement, CVPreviewProps>(
     };
 
     // --- Pagination logic -------------------------------------------------
-    const mmToPx = (mm: number) => (mm * 96) / 30.4;
+    const mmToPx = (mm: number) => (mm * 96) / 28.4;
     const PAGE_HEIGHT_PX = mmToPx(297);
     const RESERVED_PX = 100; // top + bottom padding
     const PAGE_INNER_PX = PAGE_HEIGHT_PX - RESERVED_PX;
@@ -26,20 +26,20 @@ export const CVPreview = React.forwardRef<HTMLDivElement, CVPreviewProps>(
     const sectionsOrder: string[] = [];
 
     const makeKey = (name: string, idx?: number) =>
-      idx !== undefined ? `${name}-${idx}` : name;
+      idx === undefined ? name : `${name}-${idx}`;
 
     // Build section order
     sectionsOrder.push(makeKey('header'));
     if (data.objective) sectionsOrder.push(makeKey('objective'));
-    if (data.experience && data.experience.length > 0) {
+    if (data.experience?.length > 0) {
       data.experience.forEach((_, i) => sectionsOrder.push(makeKey('experience', i)));
     }
-    if (data.education && data.education.length > 0) {
+    if (data.education?.length > 0) {
       sectionsOrder.push(makeKey('education'));
     }
     if (data.skills) sectionsOrder.push(makeKey('skills'));
-    if (data.languages && data.languages.trim()) sectionsOrder.push(makeKey('languages'));
-    if (data.softSkills && data.softSkills.trim()) sectionsOrder.push(makeKey('softSkills'));
+    if (data.languages?.trim()) sectionsOrder.push(makeKey('languages'));
+    if (data.softSkills?.trim()) sectionsOrder.push(makeKey('softSkills'));
     if (data.references && data.references.length > 0) {
       sectionsOrder.push(makeKey('references'));
     }
