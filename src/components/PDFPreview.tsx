@@ -19,6 +19,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#ffffff',
     fontFamily: 'Helvetica',
+    position: 'relative',
+    paddingTop: 24,
   },
 
   sidebar: {
@@ -27,15 +29,24 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     padding: 24,
     flexDirection: 'column',
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+  },
+
+  sidebarContent: {
+    position: 'relative',
+    top: 24,
   },
 
   mainContent: {
     width: '75%',
     padding: 32,
     flexDirection: 'column',
-    margin: 0,
+    marginLeft: '25%',
   },
-  
+
   sidebarName: {
     fontSize: 10,
     fontWeight: 'bold',
@@ -163,57 +174,63 @@ const CVDocument: React.FC<PDFPreviewProps> = ({ data }) => {
       <Page size="A4" style={styles.page}>
         {/* SIDEBAR */}
         <View style={styles.sidebar}>
-          {/* Name */}
-          <Text style={styles.sidebarName}>{data.fullName}</Text>
+          <View style={styles.sidebarContent}>
+            {/* Name */}
+            <Text style={styles.sidebarName}>{data.fullName}</Text>
 
-          {/* Contact Section */}
-          <View style={styles.sidebarSection}>
-            <Text style={styles.sidebarTitle}>Contato</Text>
-            {data.email && <Text style={styles.sidebarText}>{data.email}</Text>}
-            {data.phone && <Text style={styles.sidebarText}>{data.phone}</Text>}
-            {data.linkedin && (
-              <Text style={styles.sidebarLink}>{data.linkedin}</Text>
+            {/* Contact Section */}
+            <View style={styles.sidebarSection}>
+              <Text style={styles.sidebarTitle}>Contato</Text>
+              {data.email && (
+                <Text style={styles.sidebarText}>{data.email}</Text>
+              )}
+              {data.phone && (
+                <Text style={styles.sidebarText}>{data.phone}</Text>
+              )}
+              {data.linkedin && (
+                <Text style={styles.sidebarLink}>{data.linkedin}</Text>
+              )}
+              {data.portfolio && (
+                <Text style={styles.sidebarLink}>{data.portfolio}</Text>
+              )}
+            </View>
+
+            {/* Main Skills Section */}
+            {topSkills.length > 0 && (
+              <View style={styles.sidebarSection}>
+                <Text style={styles.sidebarTitle}>Principais competências</Text>
+                {topSkills.map((skill) => (
+                  <Text key={skill} style={styles.skillItem}>
+                    • {skill.replace(/^•\s*/, '')}
+                  </Text>
+                ))}
+              </View>
             )}
-            {data.portfolio && (
-              <Text style={styles.sidebarLink}>{data.portfolio}</Text>
+
+            {/* Languages */}
+            {langsList.length > 0 && (
+              <View style={styles.sidebarSection}>
+                <Text style={styles.sidebarTitle}>Idiomas</Text>
+                {langsList.map((lang) => (
+                  <Text key={lang} style={styles.sidebarText}>
+                    {lang.trim()}
+                  </Text>
+                ))}
+              </View>
+            )}
+
+            {/* Soft Skills */}
+            {softList.length > 0 && (
+              <View style={styles.sidebarSection}>
+                <Text style={styles.sidebarTitle}>Soft Skills</Text>
+                {softList.map((s) => (
+                  <Text key={s} style={styles.sidebarText}>
+                    • {s.trim()}
+                  </Text>
+                ))}
+              </View>
             )}
           </View>
-
-          {/* Main Skills Section */}
-          {topSkills.length > 0 && (
-            <View style={styles.sidebarSection}>
-              <Text style={styles.sidebarTitle}>Principais competências</Text>
-              {topSkills.map((skill) => (
-                <Text key={skill} style={styles.skillItem}>
-                  • {skill.replace(/^•\s*/, '')}
-                </Text>
-              ))}
-            </View>
-          )}
-
-          {/* Languages */}
-          {langsList.length > 0 && (
-            <View style={styles.sidebarSection}>
-              <Text style={styles.sidebarTitle}>Idiomas</Text>
-              {langsList.map((lang) => (
-                <Text key={lang} style={styles.sidebarText}>
-                  {lang.trim()}
-                </Text>
-              ))}
-            </View>
-          )}
-
-          {/* Soft Skills */}
-          {softList.length > 0 && (
-            <View style={styles.sidebarSection}>
-              <Text style={styles.sidebarTitle}>Soft Skills</Text>
-              {softList.map((s) => (
-                <Text key={s} style={styles.sidebarText}>
-                  • {s.trim()}
-                </Text>
-              ))}
-            </View>
-          )}
         </View>
 
         {/* MAIN CONTENT */}
@@ -241,8 +258,7 @@ const CVDocument: React.FC<PDFPreviewProps> = ({ data }) => {
 
           {/* Experience */}
           {data.experience && data.experience.length > 0 && (
-            <View style={styles.sectionContent} >
-              
+            <View style={styles.sectionContent}>
               <Text style={styles.sectionTitle}>EXPERIÊNCIA PROFISSIONAL</Text>
               {data.experience.map((exp) => (
                 <View
