@@ -6,6 +6,7 @@ import {
   Document,
   StyleSheet,
   PDFViewer,
+  Link,
 } from '@react-pdf/renderer';
 import type { CVData } from '../types';
 
@@ -158,6 +159,30 @@ const formatDate = (dateStr: string | undefined): string => {
   return dateStr.trim();
 };
 
+// Wrap text into multiple lines (by character limit) and truncate after maxLines
+const wrapAndTruncate = (
+  text: string | undefined,
+  lineLimit = 30,
+  maxLines = 2
+): string => {
+  if (!text) return '';
+  // naive chunking by characters to account for long tokens (URLs)
+  const chunks: string[] = [];
+  for (let i = 0; i < maxLines; i++) {
+    const start = i * lineLimit;
+    const end = start + lineLimit;
+    if (start >= text.length) break;
+    chunks.push(text.slice(start, end));
+  }
+  const used = chunks.join('');
+  const overflow = text.length > used.length;
+  if (!overflow) return chunks.join('\n');
+  // add ellipsis to last line
+  const last = chunks.at(-1) || '';
+  chunks[chunks.length - 1] = last.slice(0, Math.max(0, lineLimit - 3)) + '...';
+  return chunks.join('\n');
+};
+
 // PDF Document Component
 const CVDocument: React.FC<PDFPreviewProps> = ({ data }) => {
   const skillsList =
@@ -188,10 +213,14 @@ const CVDocument: React.FC<PDFPreviewProps> = ({ data }) => {
                 <Text style={styles.sidebarText}>{data.phone}</Text>
               )}
               {data.linkedin && (
-                <Text style={styles.sidebarLink}>{data.linkedin}</Text>
+                <Link style={styles.sidebarLink} src={data.linkedin}>
+                  {wrapAndTruncate(data.linkedin, 24, 1)}
+                </Link>
               )}
               {data.portfolio && (
-                <Text style={styles.sidebarLink}>{data.portfolio}</Text>
+                <Link style={styles.sidebarLink} src={data.portfolio}>
+                  {wrapAndTruncate(data.portfolio, 30, 2)}
+                </Link>
               )}
             </View>
 
