@@ -7,9 +7,7 @@ interface SidebarProps {
   activeId: string | null;
   onSelect: (id: string) => void;
   onCreate: () => void;
-  onDelete: (id: string) => void;
   onDuplicate: (id: string) => void;
-  clearAll: () => void;
   onRequestDelete: (id: string) => void;
   onRequestClear: () => void;
   isOpen: boolean;
