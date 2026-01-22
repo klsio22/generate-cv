@@ -457,9 +457,9 @@ export const CVForm: React.FC<CVFormProps> = ({
         <Plus size={18} className="mr-1" /> Adicionar Projeto
       </button>
 
-      <SectionHeader title="Habilidades e Qualificações" />
+      <SectionHeader title="COMPETÊNCIAS TÉCNICAS" />
       <div>
-        <label htmlFor="skills" className="sr-only">Habilidades</label>
+        <label htmlFor="skills" className="sr-only">COMPETÊNCIAS TÉCNICAS</label>
         <textarea
           id="skills"
           {...reg('skills')}

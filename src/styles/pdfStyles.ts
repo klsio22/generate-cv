@@ -105,6 +105,12 @@ export const pdfStyles = StyleSheet.create({
     fontStyle: 'italic',
     marginBottom: 2,
   },
+  subHeading: {
+    fontSize: 9,
+    fontWeight: 'bold',
+    color: '#000000',
+    marginBottom: 2,
+  },
   itemDate: {
     fontSize: 9,
     color: '#555555',

@@ -31,6 +31,41 @@ const CVDocument: React.FC<PDFPreviewProps> = ({ data }) => {
     return /^https?:\/\//i.test(u) ? u : `https://${u}`;
   };
 
+  const renderDescription = (description?: string, keyPrefix = ''): React.ReactNode => {
+    if (!description) return null;
+    const lines = description.split('\n');
+    const elems: React.ReactNode[] = [];
+    let inSub = false;
+    lines.forEach((ln, i) => {
+      const t = ln.trim();
+      if (!t) {
+        inSub = false;
+        return;
+      }
+      if (t.endsWith(':')) {
+        elems.push(
+          <Text key={`${keyPrefix}-sub-${i}`} style={styles.subHeading}>
+            {t}
+          </Text>
+        );
+        inSub = true;
+      } else if (inSub) {
+        elems.push(
+          <Text key={`${keyPrefix}-bullet-${i}`} style={styles.bulletItem}>
+            {t}
+          </Text>
+        );
+      } else {
+        elems.push(
+          <Text key={`${keyPrefix}-para-${i}`} style={styles.bulletItem}>
+            {t}
+          </Text>
+        );
+      }
+    });
+    return elems;
+  };
+
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -114,17 +149,7 @@ const CVDocument: React.FC<PDFPreviewProps> = ({ data }) => {
                   </Text>
                   {exp.description && (
                     <View style={styles.bulletList}>
-                      {exp.description
-                        .split('\n')
-                        .filter((line) => line.trim())
-                        .map((line) => (
-                          <Text
-                            key={`${exp.company}-${line.trim()}`}
-                            style={styles.bulletItem}
-                          >
-                            • {line.trim()}
-                          </Text>
-                        ))}
+                      {renderDescription(exp.description, `${exp.company}-${exp.role}`)}
                     </View>
                   )}
                 </View>
@@ -166,10 +191,10 @@ const CVDocument: React.FC<PDFPreviewProps> = ({ data }) => {
           {/* All Skills */}
           {skillsList.length > 0 && (
             <View style={styles.sectionContent}>
-              <Text style={styles.sectionTitle}>HABILIDADES</Text>
+              <Text style={styles.sectionTitle}>COMPETÊNCIAS TÉCNICAS</Text>
               {skillsList.map((skill) => (
                 <Text key={skill} style={styles.bulletItem}>
-                  • {skill.trim().replace(/^•\s*/, '')}
+                  {skill.trim().replace(/^•\s*/, '')}
                 </Text>
               ))}
             </View>
@@ -213,7 +238,7 @@ const CVDocument: React.FC<PDFPreviewProps> = ({ data }) => {
               <Text style={styles.sectionTitle}>IDIOMAS</Text>
               {langsList.map((lang) => (
                 <Text key={lang} style={styles.bulletItem}>
-                  • {lang.trim()}
+                  {lang.trim()}
                 </Text>
               ))}
             </View>
@@ -225,7 +250,7 @@ const CVDocument: React.FC<PDFPreviewProps> = ({ data }) => {
               <Text style={styles.sectionTitle}>SOFT SKILLS</Text>
               {softList.map((s) => (
                 <Text key={s} style={styles.bulletItem}>
-                  • {s.trim()}
+                  {s.trim()}
                 </Text>
               ))}
             </View>
