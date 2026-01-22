@@ -5,11 +5,10 @@ import {
   View,
   Document,
   PDFViewer,
-  Link,
 } from '@react-pdf/renderer';
 import styles from '../styles/pdfStyles';
 import type { CVData } from '../types';
-import { formatDate, wrapAndTruncate } from '../utils/textUtils';
+import { formatDate } from '../utils/textUtils';
 
 export interface PDFPreviewProps {
   data: CVData;
