@@ -40,6 +40,7 @@ export interface CVData {
   phone: string;
   email: string;
   linkedin: string;
+  github?: string;
   portfolio?: string;
   objective: string;
   education: Education[];

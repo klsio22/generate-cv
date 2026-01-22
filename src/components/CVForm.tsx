@@ -145,6 +145,17 @@ export const CVForm: React.FC<CVFormProps> = ({
           />
         </div>
         <div>
+          <label htmlFor="github" className="block text-sm font-medium text-gray-700">
+            GitHub
+          </label>
+          <input
+            id="github"
+            {...reg('github')}
+            placeholder="Ex: github.com/seu-usuario"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
+          />
+        </div>
+        <div>
           <label htmlFor="portfolio" className="block text-sm font-medium text-gray-700">
             Portfólio
           </label>

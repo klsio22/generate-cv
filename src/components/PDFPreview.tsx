@@ -38,14 +38,20 @@ const CVDocument: React.FC<PDFPreviewProps> = ({ data }) => {
               {data.email && <Text>{data.email}</Text>}
               {data.phone && <Text>{data.phone}</Text>}
               {data.address && <Text>{data.address}</Text>}
-              {(data.linkedin || data.portfolio) && (
+              {(data.linkedin || data.github || data.portfolio) && (
                 <Text>
                   {data.linkedin && (
                     <>
                       LinkedIn: {data.linkedin.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')}
                     </>
                   )}
-                  {data.linkedin && data.portfolio && ' • '}
+                  {data.linkedin && (data.github || data.portfolio) && ' • '}
+                  {data.github && (
+                    <>
+                      GitHub: {data.github.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')}
+                    </>
+                  )}
+                  {data.github && data.portfolio && ' • '}
                   {data.portfolio && (
                     <>
                       Portfolio: {data.portfolio.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')}

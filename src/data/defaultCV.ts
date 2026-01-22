@@ -6,7 +6,8 @@ export const defaultCV: CVData = {
   address: '',
   phone: '(12) 456-7890',
   email: 'ola@grandesite.com.br',
-  linkedin: 'www.grandesite.com.br',
+  linkedin: 'www.linkedin.com/in/usuario',
+  github: 'github.com/usuario',
   portfolio: 'www.grandesite.com.br',
   objective:
     'Desenvolvedora de software e arquiteta de sistemas com experiência em projetar, programar e testar sistemas complexos. Minha expertise está nas linguagens de programação C#, Java e Ruby.',

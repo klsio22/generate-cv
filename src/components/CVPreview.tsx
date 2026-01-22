@@ -62,6 +62,34 @@ export const CVPreview = React.forwardRef<HTMLDivElement, CVPreviewProps>(
                 {data.email && <p>{data.email}</p>}
                 {data.phone && <p>{data.phone}</p>}
                 {data.address && <p>{data.address}</p>}
+                {(data.linkedin || data.github || data.portfolio) && (
+                  <div className="flex gap-3 mt-2 pt-1">
+                    {data.linkedin && (
+                      <a href={`https://${data.linkedin}`} target="_blank" rel="noopener noreferrer" 
+                         className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800 transition-colors"
+                         title="LinkedIn">
+                        <span className="text-lg">🔗</span>
+                        <span className="text-xs">LinkedIn</span>
+                      </a>
+                    )}
+                    {data.github && (
+                      <a href={`https://${data.github}`} target="_blank" rel="noopener noreferrer"
+                         className="inline-flex items-center gap-1 text-gray-800 hover:text-gray-600 transition-colors"
+                         title="GitHub">
+                        <span className="text-lg">💻</span>
+                        <span className="text-xs">GitHub</span>
+                      </a>
+                    )}
+                    {data.portfolio && (
+                      <a href={`https://${data.portfolio}`} target="_blank" rel="noopener noreferrer"
+                         className="inline-flex items-center gap-1 text-green-700 hover:text-green-900 transition-colors"
+                         title="Portfolio">
+                        <span className="text-lg">🌐</span>
+                        <span className="text-xs">Portfolio</span>
+                      </a>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           );
