@@ -11,7 +11,7 @@ import {
 } from '@react-pdf/renderer';
 import styles from '../styles/pdfStyles';
 import type { CVData } from '../types';
-import { formatDate } from '../utils/textUtils';
+import { formatDate, normalizeUrl } from '../utils/textUtils';
 
 export interface PDFPreviewProps {
   data: CVData;
@@ -25,11 +25,6 @@ const CVDocument: React.FC<PDFPreviewProps> = ({ data }) => {
       .filter(Boolean) || [];
   const langsList = data.languages?.split('\n').filter((l) => l.trim()) || [];
   const softList = data.softSkills?.split('\n').filter((s) => s.trim()) || [];
-
-  const normalizeUrl = (u?: string) => {
-    if (!u) return '';
-    return /^https?:\/\//i.test(u) ? u : `https://${u}`;
-  };
 
   const renderDescription = (description?: string, keyPrefix = ''): React.ReactNode => {
     if (!description) return null;
