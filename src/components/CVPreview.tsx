@@ -37,6 +37,9 @@ export const CVPreview = React.forwardRef<HTMLDivElement, CVPreviewProps>(
     if (data.education?.length > 0) {
       sectionsOrder.push(makeKey('education'));
     }
+    if (data.projects && data.projects.length > 0) {
+      sectionsOrder.push(makeKey('projects'));
+    }
     if (data.skills) sectionsOrder.push(makeKey('skills'));
     if (data.languages?.trim()) sectionsOrder.push(makeKey('languages'));
     if (data.softSkills?.trim()) sectionsOrder.push(makeKey('softSkills'));
@@ -113,6 +116,37 @@ export const CVPreview = React.forwardRef<HTMLDivElement, CVPreviewProps>(
                       <div className="text-xs text-gray-600 mb-1">
                         {formatDate(edu.startDate)}{edu.endDate ? ` - ${formatDate(edu.endDate)}` : ''}
                       </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        }
+
+        case 'projects': {
+          const projects = data.projects || [];
+          if (projects.length === 0) return null;
+          return (
+            <div className="mb-6">
+              <h2 className="font-bold text-sm text-gray-900 mb-3">PROJETOS</h2>
+              <div className="space-y-3">
+                {projects.map((project) => (
+                  <div key={`${project.name}-${project.id}`}>
+                    <p className="font-bold text-sm text-gray-900">{project.name}</p>
+                    {project.technologies && (
+                      <p className="text-xs text-gray-600 italic">{project.technologies}</p>
+                    )}
+                    {(project.startDate || project.endDate) && (
+                      <div className="text-xs text-gray-600 mb-1">
+                        {formatDate(project.startDate)}{project.endDate ? ` - ${formatDate(project.endDate)}` : ''}
+                      </div>
+                    )}
+                    {project.description && (
+                      <p className="text-xs leading-relaxed text-gray-700 mb-1">{project.description}</p>
+                    )}
+                    {project.link && (
+                      <p className="text-xs text-gray-600">Link: {project.link}</p>
                     )}
                   </div>
                 ))}

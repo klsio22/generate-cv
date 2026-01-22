@@ -133,6 +133,38 @@ const CVDocument: React.FC<PDFPreviewProps> = ({ data }) => {
             </View>
           )}
 
+          {/* Projects */}
+          {data.projects && data.projects.length > 0 && (
+            <View style={styles.sectionContent}>
+              <Text style={styles.sectionTitle}>PROJETOS</Text>
+              {data.projects.map((project) => (
+                <View
+                  key={`${project.name}-${project.id}`}
+                  style={styles.itemContainer}
+                >
+                  <Text style={styles.itemTitle}>{project.name}</Text>
+                  {project.technologies && (
+                    <Text style={styles.itemSubtitle}>{project.technologies}</Text>
+                  )}
+                  {(project.startDate || project.endDate) && (
+                    <Text style={styles.itemDate}>
+                      {formatDate(project.startDate)}
+                      {project.endDate ? ` - ${formatDate(project.endDate)}` : ''}
+                    </Text>
+                  )}
+                  {project.description && (
+                    <Text style={styles.objective}>{project.description}</Text>
+                  )}
+                  {project.link && (
+                    <Text style={styles.bulletItem}>
+                      Link: {project.link}
+                    </Text>
+                  )}
+                </View>
+              ))}
+            </View>
+          )}
+
           {/* Languages */}
           {langsList.length > 0 && (
             <View style={styles.sectionContent}>

@@ -23,6 +23,16 @@ export interface Reference {
   phone: string;
 }
 
+export interface Project {
+  id: string;
+  name: string;
+  description: string;
+  technologies?: string;
+  link?: string;
+  startDate?: string;
+  endDate?: string;
+}
+
 export interface CVData {
   fullName: string;
   jobTitle: string; // Cargo/posição
@@ -34,6 +44,7 @@ export interface CVData {
   objective: string;
   education: Education[];
   experience: Experience[];
+  projects?: Project[]; // Projetos feitos e participados
   skills: string;
   languages?: string; // multiline list of languages
   softSkills?: string; // multiline list of soft skills

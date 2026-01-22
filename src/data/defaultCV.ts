@@ -51,6 +51,26 @@ export const defaultCV: CVData = {
   languages: '',
   softSkills: '',
   customFields: [],
+  projects: [
+    {
+      id: '1',
+      name: 'Sistema de Gestão Hospitalar',
+      description: 'Desenvolvimento de sistema web completo para gestão de pacientes, agendamentos e registros médicos. Implementei a arquitetura backend com Java Spring Boot e frontend com React.',
+      technologies: 'Java, Spring Boot, React, PostgreSQL',
+      link: 'github.com/usuario/hospital-system',
+      startDate: 'Jan 2032',
+      endDate: 'Ago 2032',
+    },
+    {
+      id: '2',
+      name: 'App Mobile de Finanças Pessoais',
+      description: 'Aplicativo mobile para controle de despesas e orçamento pessoal com gráficos de análise. Participei como desenvolvedora principal na implementação das funcionalidades de dashboard e relatórios.',
+      technologies: 'React Native, Firebase, Expo',
+      link: 'github.com/usuario/finance-app',
+      startDate: 'Mar 2031',
+      endDate: 'Jul 2031',
+    },
+  ],
   references: [
     {
       id: '1',
