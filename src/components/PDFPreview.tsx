@@ -49,9 +49,6 @@ const CVDocument: React.FC<PDFPreviewProps> = ({ data }) => {
               {(data.linkedin || data.github || data.portfolio) && (
                 <View style={styles.linksContainer}>
 
-
-
-
                   {data.linkedin && (
                     <View style={styles.socialItem}>
                       <Svg width={18} height={18} style={{ marginRight: 6 }} viewBox="0 0 256 256">
