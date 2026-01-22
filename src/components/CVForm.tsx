@@ -143,6 +143,13 @@ export const CVForm: React.FC<CVFormProps> = ({
             placeholder="Ex: linkedin.com/in/seu-perfil"
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
           />
+          <label htmlFor="linkedinName" className="block text-xs font-medium text-gray-600 mt-2">Nome a exibir (LinkedIn)</label>
+          <input
+            id="linkedinName"
+            {...reg('linkedinName')}
+            placeholder="Ex: João Silva"
+            className="mt-1 block w-full rounded-md border-gray-200 shadow-sm sm:text-sm border p-2"
+          />
         </div>
         <div>
           <label htmlFor="github" className="block text-sm font-medium text-gray-700">
@@ -154,6 +161,13 @@ export const CVForm: React.FC<CVFormProps> = ({
             placeholder="Ex: github.com/seu-usuario"
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
           />
+          <label htmlFor="githubName" className="block text-xs font-medium text-gray-600 mt-2">Nome a exibir (GitHub)</label>
+          <input
+            id="githubName"
+            {...reg('githubName')}
+            placeholder="Ex: usuario"
+            className="mt-1 block w-full rounded-md border-gray-200 shadow-sm sm:text-sm border p-2"
+          />
         </div>
         <div>
           <label htmlFor="portfolio" className="block text-sm font-medium text-gray-700">
@@ -164,6 +178,13 @@ export const CVForm: React.FC<CVFormProps> = ({
             {...reg('portfolio')}
             placeholder="Ex: www.seusite.com.br"
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
+          />
+          <label htmlFor="portfolioName" className="block text-xs font-medium text-gray-600 mt-2">Nome a exibir (Portfólio)</label>
+          <input
+            id="portfolioName"
+            {...reg('portfolioName')}
+            placeholder="Ex: Meu Portfolio"
+            className="mt-1 block w-full rounded-md border-gray-200 shadow-sm sm:text-sm border p-2"
           />
         </div>
       </div>

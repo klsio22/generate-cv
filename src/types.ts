@@ -40,8 +40,11 @@ export interface CVData {
   phone: string;
   email: string;
   linkedin: string;
+  linkedinName?: string;
   github?: string;
+  githubName?: string;
   portfolio?: string;
+  portfolioName?: string;
   objective: string;
   education: Education[];
   experience: Experience[];

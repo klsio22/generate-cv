@@ -5,6 +5,7 @@ import {
   View,
   Document,
   PDFViewer,
+  Link,
 } from '@react-pdf/renderer';
 import styles from '../styles/pdfStyles';
 import type { CVData } from '../types';
@@ -22,6 +23,11 @@ const CVDocument: React.FC<PDFPreviewProps> = ({ data }) => {
       .filter(Boolean) || [];
   const langsList = data.languages?.split('\n').filter((l) => l.trim()) || [];
   const softList = data.softSkills?.split('\n').filter((s) => s.trim()) || [];
+
+  const normalizeUrl = (u?: string) => {
+    if (!u) return '';
+    return /^https?:\/\//i.test(u) ? u : `https://${u}`;
+  };
 
   return (
     <Document>
@@ -41,21 +47,21 @@ const CVDocument: React.FC<PDFPreviewProps> = ({ data }) => {
               {(data.linkedin || data.github || data.portfolio) && (
                 <View style={styles.linksContainer}>
                   {data.linkedin && (
-                    <Text style={styles.linkText}>
-                      LinkedIn: {data.linkedin.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')}
-                    </Text>
+                    <Link src={normalizeUrl(data.linkedin)} style={styles.linkText}>
+                      LinkedIn: {data.linkedinName?.trim() ? `${data.linkedinName}` : ` ${data.linkedin.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')}`}
+                    </Link>
                   )}
 
                   {data.github && (
-                    <Text style={styles.linkText}>
-                      GitHub: {data.github.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')}
-                    </Text>
+                    <Link src={normalizeUrl(data.github)} style={styles.linkText}>
+                      GitHub: {data.githubName?.trim() ? `${data.githubName}` : `${data.github.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')}`}
+                    </Link>
                   )}
 
                   {data.portfolio && (
-                    <Text style={styles.linkText}>
-                      Portfolio: {data.portfolio.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')}
-                    </Text>
+                    <Link src={normalizeUrl(data.portfolio)} style={styles.linkText}>
+                      Portfolio: {data.portfolioName?.trim() ? `${data.portfolioName}` : ` ${data.portfolio.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')}`}
+                    </Link>
                   )}
                 </View>
               )}
