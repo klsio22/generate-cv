@@ -251,6 +251,16 @@ const CVDocument: React.FC<PDFPreviewProps> = ({ data }) => {
             </View>
           )}
 
+          {/* Interpersonal Competencies Demonstrated */}
+          {data.interpersonalSkills && (
+            <View style={styles.sectionContent}>
+              <Text style={styles.sectionTitle}>COMPETÊNCIAS INTERPESSOAIS DEMONSTRADAS</Text>
+              <View style={styles.bulletList}>
+                {renderDescription(data.interpersonalSkills, 'interpersonal')}
+              </View>
+            </View>
+          )}
+
           {/* References */}
           {data.references && data.references.length > 0 && (
             <View style={styles.sectionContent}>

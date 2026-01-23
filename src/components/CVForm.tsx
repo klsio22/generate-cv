@@ -493,6 +493,18 @@ export const CVForm: React.FC<CVFormProps> = ({
         />
       </div>
 
+      <SectionHeader title="COMPETÊNCIAS INTERPESSOAIS DEMONSTRADAS" />
+      <div>
+        <label htmlFor="interpersonalSkills" className="sr-only">Competências Interpessoais Demonstradas</label>
+        <textarea
+          id="interpersonalSkills"
+          {...reg('interpersonalSkills')}
+          rows={6}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
+          placeholder="Descreva competências interpessoais demonstradas (um parágrafo ou tópicos por linha)..."
+        />
+      </div>
+
       <SectionHeader title="Campos Personalizados" />
       {customFields.map((field, index) => (
         <div key={field.id} className="bg-gray-50 p-4 rounded-md mb-3 border relative">

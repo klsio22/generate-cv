@@ -56,6 +56,13 @@ export const defaultCV: CVData = {
     'Análise de Sistemas\nPesquisa de Usuários\nMachine Learning\nMetodologia Ágil\nBanco de Dados',
   languages: '',
   softSkills: '',
+  interpersonalSkills: `Liderança e Mentoria: Conduzo revisões de código detalhadas e sessões de pair programming, reduzindo tempo de onboarding de novos desenvolvedores em 50%. Assumo naturalmente papel de referência técnica, propondo soluções para problemas complexos e educando a equipe sobre trade-offs técnicos.
+Comunicação e Colaboração: Facilito comunicação efetiva entre equipes técnicas e não-técnicas, traduzindo requisitos de negócio em soluções técnicas viáveis. Demonstro empatia ao entender perspectivas de designers, PMs e stakeholders, criando consenso através de apresentações claras e negociação construtiva.
+Resolução de Problemas: Aplico pensamento analítico sistemático para diagnosticar problemas complexos, como evidenciado pela resolução de bug crítico de race condition que salvou dados de clientes e pela otimização de performance que aumentou conversões em 25%.
+Autonomia e Proatividade: Identifico oportunidades de melhoria sem ser solicitado, como criação de biblioteca de componentes que reduziu tempo de desenvolvimento em 60% e documentação técnica que diminuiu code reviews em 50%.
+Resiliência e Aprendizado: Enfrento desafios técnicos complexos com persistência, dedicando tempo para dominar código legado difícil e transformá-lo em solução moderna e manutenível, enquanto documento o processo para benefício da equipe.
+Gestão de Tempo e Organização: Entrego projetos consistentemente no prazo através de planejamento cuidadoso, priorização efetiva e comunicação proativa sobre riscos e impedimentos.
+Adaptabilidade: Domino novas tecnologias e plataformas rapidamente (ex: VTEX em 3 semanas), adapto-me a mudanças de requisitos com flexibilidade e mantenho produtividade em ambientes dinâmicos de startup.`,
   customFields: [],
   projects: [
     {
