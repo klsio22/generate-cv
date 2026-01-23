@@ -69,6 +69,15 @@ export const CVForm: React.FC<CVFormProps> = ({
     name: 'customFields',
   });
 
+  const {
+    fields: projectFields,
+    append: appendProject,
+    remove: removeProject,
+  } = useFieldArray({
+    control,
+    name: 'projects',
+  });
+
   return (
     <div className="bg-white p-6 shadow rounded-lg space-y-4">
       <SectionHeader title="Dados Pessoais" />
@@ -134,6 +143,31 @@ export const CVForm: React.FC<CVFormProps> = ({
             placeholder="Ex: linkedin.com/in/seu-perfil"
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
           />
+          <label htmlFor="linkedinName" className="block text-xs font-medium text-gray-600 mt-2">Nome a exibir (LinkedIn)</label>
+          <input
+            id="linkedinName"
+            {...reg('linkedinName')}
+            placeholder="Ex: João Silva"
+            className="mt-1 block w-full rounded-md border-gray-200 shadow-sm sm:text-sm border p-2"
+          />
+        </div>
+        <div>
+          <label htmlFor="github" className="block text-sm font-medium text-gray-700">
+            GitHub
+          </label>
+          <input
+            id="github"
+            {...reg('github')}
+            placeholder="Ex: github.com/seu-usuario"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
+          />
+          <label htmlFor="githubName" className="block text-xs font-medium text-gray-600 mt-2">Nome a exibir (GitHub)</label>
+          <input
+            id="githubName"
+            {...reg('githubName')}
+            placeholder="Ex: usuario"
+            className="mt-1 block w-full rounded-md border-gray-200 shadow-sm sm:text-sm border p-2"
+          />
         </div>
         <div>
           <label htmlFor="portfolio" className="block text-sm font-medium text-gray-700">
@@ -144,6 +178,13 @@ export const CVForm: React.FC<CVFormProps> = ({
             {...reg('portfolio')}
             placeholder="Ex: www.seusite.com.br"
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
+          />
+          <label htmlFor="portfolioName" className="block text-xs font-medium text-gray-600 mt-2">Nome a exibir (Portfólio)</label>
+          <input
+            id="portfolioName"
+            {...reg('portfolioName')}
+            placeholder="Ex: Meu Portfolio"
+            className="mt-1 block w-full rounded-md border-gray-200 shadow-sm sm:text-sm border p-2"
           />
         </div>
       </div>
@@ -291,6 +332,16 @@ export const CVForm: React.FC<CVFormProps> = ({
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
               />
             </div>
+            <div className="md:col-span-2">
+              <label htmlFor={`education-${index}-topics`} className="block text-sm font-medium text-gray-700">Tópicos / Disciplinas (uma por linha)</label>
+              <textarea
+                id={`education-${index}-topics`}
+                {...reg((`education.${index}.topics`) as Path<CVData>)}
+                placeholder={"Ex: Deep Learning\nNatural Language Processing\nAdvanced Operating Systems"}
+                rows={3}
+                className="mt-1 block w-full h-24 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
+              />
+            </div>
           </div>
         </div>
       ))}
@@ -303,6 +354,7 @@ export const CVForm: React.FC<CVFormProps> = ({
             institution: '',
             startDate: '',
             endDate: '',
+            topics: '',
           });
           setTimeout(() => callSave(), 0);
         }}
@@ -311,9 +363,103 @@ export const CVForm: React.FC<CVFormProps> = ({
         <Plus size={18} className="mr-1" /> Adicionar Formação
       </button>
 
-      <SectionHeader title="Habilidades e Qualificações" />
+      <SectionHeader title="Projetos" />
+      {projectFields.map((field, index) => (
+        <div
+          key={field.id}
+          className="bg-gray-50 p-4 rounded-md mb-3 border relative"
+        >
+          <button
+            type="button"
+            onClick={() => {
+              removeProject(index);
+              setTimeout(() => callSave(), 0);
+            }}
+            className="absolute top-2 right-2 text-red-500 hover:text-red-700"
+          >
+            <Trash2 size={18} />
+          </button>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor={`projects-${index}-name`} className="block text-sm font-medium text-gray-700">Nome do Projeto</label>
+              <input
+                id={`projects-${index}-name`}
+                {...reg((`projects.${index}.name`) as Path<CVData>)}
+                placeholder="Ex: Sistema de Gestão Hospitalar"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
+              />
+            </div>
+            <div>
+              <label htmlFor={`projects-${index}-technologies`} className="block text-sm font-medium text-gray-700">Tecnologias</label>
+              <input
+                id={`projects-${index}-technologies`}
+                {...reg((`projects.${index}.technologies`) as Path<CVData>)}
+                placeholder="Ex: Java, React, PostgreSQL"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
+              />
+            </div>
+            <div>
+              <label htmlFor={`projects-${index}-startDate`} className="block text-sm font-medium text-gray-700">Início</label>
+              <input
+                id={`projects-${index}-startDate`}
+                {...reg((`projects.${index}.startDate`) as Path<CVData>)}
+                placeholder="Ex: Jan 2023"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
+              />
+            </div>
+            <div>
+              <label htmlFor={`projects-${index}-endDate`} className="block text-sm font-medium text-gray-700">Término</label>
+              <input
+                id={`projects-${index}-endDate`}
+                {...reg((`projects.${index}.endDate`) as Path<CVData>)}
+                placeholder="Ex: Ago 2023"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
+              />
+            </div>
+            <div className="md:col-span-2">
+              <label htmlFor={`projects-${index}-link`} className="block text-sm font-medium text-gray-700">Link (GitHub, Deploy, etc)</label>
+              <input
+                id={`projects-${index}-link`}
+                {...reg((`projects.${index}.link`) as Path<CVData>)}
+                placeholder="Ex: github.com/usuario/projeto"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
+              />
+            </div>
+            <div className="md:col-span-2">
+              <label htmlFor={`projects-${index}-description`} className="block text-sm font-medium text-gray-700">Descrição</label>
+              <textarea
+                id={`projects-${index}-description`}
+                {...reg((`projects.${index}.description`) as Path<CVData>)}
+                placeholder="Descreva o projeto, suas funcionalidades e sua contribuição..."
+                rows={3}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
+              />
+            </div>
+          </div>
+        </div>
+      ))}
+      <button
+        type="button"
+        onClick={() => {
+          appendProject({
+            id: '',
+            name: '',
+            description: '',
+            technologies: '',
+            link: '',
+            startDate: '',
+            endDate: '',
+          });
+          setTimeout(() => callSave(), 0);
+        }}
+        className="flex items-center text-indigo-600 hover:text-indigo-800 font-medium"
+      >
+        <Plus size={18} className="mr-1" /> Adicionar Projeto
+      </button>
+
+      <SectionHeader title="COMPETÊNCIAS TÉCNICAS" />
       <div>
-        <label htmlFor="skills" className="sr-only">Habilidades</label>
+        <label htmlFor="skills" className="sr-only">COMPETÊNCIAS TÉCNICAS</label>
         <textarea
           id="skills"
           {...reg('skills')}
@@ -344,6 +490,18 @@ export const CVForm: React.FC<CVFormProps> = ({
           rows={3}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
           placeholder="Ex: Comunicação, Trabalho em equipe..."
+        />
+      </div>
+
+      <SectionHeader title="COMPETÊNCIAS INTERPESSOAIS DEMONSTRADAS" />
+      <div>
+        <label htmlFor="interpersonalSkills" className="sr-only">Competências Interpessoais Demonstradas</label>
+        <textarea
+          id="interpersonalSkills"
+          {...reg('interpersonalSkills')}
+          rows={6}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
+          placeholder="Descreva competências interpessoais demonstradas (um parágrafo ou tópicos por linha)..."
         />
       </div>
 

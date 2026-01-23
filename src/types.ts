@@ -4,6 +4,7 @@ export interface Education {
   institution: string;
   startDate: string;
   endDate: string;
+  topics?: string; // multiline list of topics/courses seen at university
 }
 
 export interface Experience {
@@ -23,6 +24,16 @@ export interface Reference {
   phone: string;
 }
 
+export interface Project {
+  id: string;
+  name: string;
+  description: string;
+  technologies?: string;
+  link?: string;
+  startDate?: string;
+  endDate?: string;
+}
+
 export interface CVData {
   fullName: string;
   jobTitle: string; // Cargo/posição
@@ -30,13 +41,19 @@ export interface CVData {
   phone: string;
   email: string;
   linkedin: string;
+  linkedinName?: string;
+  github?: string;
+  githubName?: string;
   portfolio?: string;
+  portfolioName?: string;
   objective: string;
   education: Education[];
   experience: Experience[];
+  projects?: Project[]; // Projetos feitos e participados
   skills: string;
   languages?: string; // multiline list of languages
   softSkills?: string; // multiline list of soft skills
+  interpersonalSkills?: string; // multiline field for demonstrated interpersonal competencies
   customFields?: { id: string; label: string; value: string }[];
   references?: Reference[];
 }

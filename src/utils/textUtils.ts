@@ -27,3 +27,9 @@ export const wrapAndTruncate = (
   chunks[chunks.length - 1] = last.slice(0, Math.max(0, lineLimit - 3)) + '...';
   return chunks.join('\n');
 };
+
+
+export const normalizeUrl = (u?: string) => {
+  if (!u) return '';
+  return /^https?:\/\//i.test(u) ? u : `https://${u}`;
+};
