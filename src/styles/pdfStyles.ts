@@ -37,7 +37,7 @@ export const pdfStyles = StyleSheet.create({
     display: 'none',
   },
   header: {
-    marginBottom: 16,
+    marginBottom: 12,
     textAlign: 'center',
   },
   fullName: {
@@ -88,10 +88,10 @@ export const pdfStyles = StyleSheet.create({
     paddingBottom: 4,
   },
   sectionContent: {
-    marginBottom: 10,
+    marginBottom: 8,
   },
   itemContainer: {
-    marginBottom: 10,
+    marginBottom: 8,
   },
   itemTitle: {
     fontSize: 10,
