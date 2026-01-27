@@ -54,6 +54,7 @@ export interface CVData {
   languages?: string; // multiline list of languages
   softSkills?: string; // multiline list of soft skills
   interpersonalSkills?: string; // multiline field for demonstrated interpersonal competencies
+  academicProjects?: string; // multiline field for academic/technical projects
   customFields?: { id: string; label: string; value: string }[];
   references?: Reference[];
 }

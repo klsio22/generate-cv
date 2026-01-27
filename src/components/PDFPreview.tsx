@@ -227,6 +227,16 @@ const CVDocument: React.FC<PDFPreviewProps> = ({ data }) => {
             </View>
           )}
 
+            {/* Academic / Technical Projects */}
+            {data.academicProjects && (
+              <View style={styles.sectionContent}>
+                <Text style={styles.sectionTitle}>PROJETOS ACADÊMICOS E TÉCNICOS</Text>
+                <View style={styles.bulletList}>
+                  {renderDescription(data.academicProjects, 'academic')}
+                </View>
+              </View>
+            )}
+
           {/* Languages */}
           {langsList.length > 0 && (
             <View style={styles.sectionContent}>

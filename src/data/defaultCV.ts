@@ -63,6 +63,11 @@ Autonomia e Proatividade: Identifico oportunidades de melhoria sem ser solicitad
 Resiliência e Aprendizado: Enfrento desafios técnicos complexos com persistência, dedicando tempo para dominar código legado difícil e transformá-lo em solução moderna e manutenível, enquanto documento o processo para benefício da equipe.
 Gestão de Tempo e Organização: Entrego projetos consistentemente no prazo através de planejamento cuidadoso, priorização efetiva e comunicação proativa sobre riscos e impedimentos.
 Adaptabilidade: Domino novas tecnologias e plataformas rapidamente (ex: VTEX em 3 semanas), adapto-me a mudanças de requisitos com flexibilidade e mantenho produtividade em ambientes dinâmicos de startup.`,
+  academicProjects: `Projetos em Python | UTFPR
+2022 - Presente
+Desenvolvi diversos projetos acadêmicos utilizando Python, aplicando conceitos de programação orientada a objetos, estruturas de dados, algoritmos e desenvolvimento backend. Implementei sistemas de gerenciamento de dados com manipulação de arquivos, validações e lógica de negócio complexa. Trabalhei com bibliotecas Python para processamento de dados e automação de tarefas. Apliquei conceitos de POO (Programação Orientada a Objetos) criando classes, herança, polimorfismo e encapsulamento em projetos práticos. Desenvolvi APIs RESTful utilizando conceitos de arquitetura backend e integração com bancos de dados relacionais e NoSQL.
+Conhecimento em Cloud Computing (AWS)
+Conhecimento teórico em serviços AWS incluindo EC2 (Elastic Compute Cloud) para provisionamento de servidores virtuais, S3 (Simple Storage Service) para armazenamento de objetos, Lambda para computação serverless, RDS (Relational Database Service) para bancos de dados gerenciados, e conceitos de arquitetura cloud, escalabilidade, alta disponibilidade e segurança em ambientes distribuídos.`,
   customFields: [],
   projects: [
     {
