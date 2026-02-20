@@ -10,12 +10,13 @@ import {
 import styles from '../styles/pdfStyles';
 import type { CVData } from '../types';
 import { formatDate, normalizeUrl } from '../utils/textUtils';
+import type { ReactNode } from 'react';
 
 export interface PDFPreviewProps {
     data: CVData;
 }
 
-export const CVDocument: React.FC<PDFPreviewProps> = ({ data }) => {
+export const CVDocument = ({ data }: PDFPreviewProps) => {
     const skillsList =
         data.skills
             ?.split('\n')
@@ -24,39 +25,50 @@ export const CVDocument: React.FC<PDFPreviewProps> = ({ data }) => {
     const langsList = data.languages?.split('\n').filter((l) => l.trim()) || [];
     const softList = data.softSkills?.split('\n').filter((s) => s.trim()) || [];
 
-    const renderDescription = (description?: string, keyPrefix = ''): React.ReactNode => {
-        if (!description) return null;
-        const lines = description.split('\n');
-        const elems: React.ReactNode[] = [];
-        let inSub = false;
-        lines.forEach((ln, i) => {
-            const t = ln.trim();
-            if (!t) {
-                inSub = false;
+    const renderDescription = (descriptionText?: string, elementKeyPrefix = ''): ReactNode => {
+        if (!descriptionText) return null;
+        
+        const descriptionLines = descriptionText.split('\n');
+        const renderedElements: ReactNode[] = [];
+        let isInsideSubheading = false;
+        
+        descriptionLines.forEach((line, lineIndex) => {
+            const trimmedLineText = line.trim();
+            
+            // Skip empty lines and reset subheading context
+            if (!trimmedLineText) {
+                isInsideSubheading = false;
                 return;
             }
-            if (t.endsWith(':')) {
-                elems.push(
-                    <Text key={`${keyPrefix}-sub-${i}`} style={styles.subHeading}>
-                        {t}
+            
+            // Line ending with ':' is treated as a subheading
+            if (trimmedLineText.endsWith(':')) {
+                renderedElements.push(
+                    <Text key={`${elementKeyPrefix}-subheading-${lineIndex}`} style={styles.subHeading}>
+                        {trimmedLineText}
                     </Text>
                 );
-                inSub = true;
-            } else if (inSub) {
-                elems.push(
-                    <Text key={`${keyPrefix}-bullet-${i}`} style={styles.bulletItem}>
-                        {t}
+                isInsideSubheading = true;
+            } 
+            // Lines after a subheading are indented as bullet items
+            else if (isInsideSubheading) {
+                renderedElements.push(
+                    <Text key={`${elementKeyPrefix}-subitem-${lineIndex}`} style={styles.bulletItem}>
+                        {trimmedLineText}
                     </Text>
                 );
-            } else {
-                elems.push(
-                    <Text key={`${keyPrefix}-para-${i}`} style={styles.bulletItem}>
-                        {t}
+            } 
+            // Regular lines (without preceding subheading)
+            else {
+                renderedElements.push(
+                    <Text key={`${elementKeyPrefix}-paragraph-${lineIndex}`} style={styles.bulletItem}>
+                        {trimmedLineText}
                     </Text>
                 );
             }
         });
-        return elems;
+        
+        return renderedElements;
     };
 
     return (
@@ -171,7 +183,7 @@ export const CVDocument: React.FC<PDFPreviewProps> = ({ data }) => {
                                         <Text style={styles.bodyText}>
                                             {edu.topics
                                                 .split('\n')
-                                                .map((t) => t.trim())
+                                                .map((text) => text.trim())
                                                 .filter(Boolean)
                                                 .join(', ')}
                                         </Text>
