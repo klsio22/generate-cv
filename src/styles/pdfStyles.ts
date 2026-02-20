@@ -91,11 +91,8 @@ export const pdfStyles = StyleSheet.create({
     marginBottom: 8,
   },
   sectionBody: {
-    marginLeft: 8,
-    marginTop: 4,
-  },
-  itemContent: {
     marginLeft: 0,
+    marginTop: 4,
   },
   itemContainer: {
     marginBottom: 8,
@@ -111,20 +108,30 @@ export const pdfStyles = StyleSheet.create({
     color: '#333333',
     fontStyle: 'italic',
     marginBottom: 2,
+    marginLeft: 0,
+  },
+  bodyText: {
+    fontSize: 9,
+    color: '#333333',
+    marginBottom: 2,
+    marginLeft: 0,
   },
   subHeading: {
     fontSize: 9,
     fontWeight: 'bold',
     color: '#000000',
     marginBottom: 2,
+    marginLeft: 0,
   },
   itemDate: {
     fontSize: 9,
     color: '#555555',
     marginBottom: 6,
+    marginLeft: 0,
   },
   bulletList: {
-    marginLeft: 8,
+    marginLeft: 0,
+    marginTop: 6,
   },
   bulletItem: {
     fontSize: 9,
