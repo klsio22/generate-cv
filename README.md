@@ -119,16 +119,9 @@ vercel --prod
 
 ---
 
-## **🤝 Contribuição**
-
-1. **Issues:** Reporte bugs e sugira funcionalidades
-2. **Pull Requests:** Crie uma branch, descreva suas mudanças e inclua testes quando aplicável
-
----
-
 ## **📄 Licença**
 
-MIT © 2024 Klésio Antônio do Nascimento
+MIT © 2024 Klésio
 
 ---
 
