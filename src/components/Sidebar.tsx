@@ -128,7 +128,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     }
                   />
                   <div className="flex flex-col truncate">
-                    <span className="font-medium text-sm wrap-break-word whitespace-normal mr-16">
+                    <span className="mr-2 font-medium text-sm wrap-break-word whitespace-normal ">
                       {cv.title}
                     </span>
                     <span className="text-xs text-gray-500">
