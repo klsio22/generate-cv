@@ -1,7 +1,3 @@
-   Aqui está a **documentação melhorada** do seu projeto, mais profissional, estruturada e atrativa para recrutadores:
-
----
-
 # **Curriculum Generator**
 
 > **Aplicação web para criação, edição e exportação de currículos profissionais no padrão ABNT**, com preview em tempo real e exportação em PDF.
@@ -155,7 +151,3 @@ MIT © 2024 Klésio Antônio do Nascimento
 | Sem licença | **MIT License** (padrão open source) |
 | Sem portfólio no final | **Links para seus projetos pessoais** |
 | Tom técnico seco | **Tom profissional + emojis + estrutura visual** |
-
----
-
-Quer que eu crie também uma **versão em português** (`README.pt.md`) ou **adicione badges** (build passing, deploy status, etc.)?
